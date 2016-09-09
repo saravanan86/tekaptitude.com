@@ -20,7 +20,7 @@ var config = {
     },
     production: {
         //url to be used in link generation
-        url: 'https://tekaptitude.herokuapp.com/',
+        url: 'https://tekaptitude.herokuapp.com',
         //mongodb connection settings
         database: {
             host: 'ds017246.mlab.com',
