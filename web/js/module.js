@@ -1,0 +1,1 @@
+var app = angular.module("techApt", ["ui.bootstrap","ngRoute", "ngAnimate"]);

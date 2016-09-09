@@ -1,0 +1,28 @@
+<div class="topic-page">
+    <div class="modal-header topicBgColor test-header">
+        <div class="test-header-left">
+            <b>Time remaining:</b> {{timeLeft}}
+        </div>
+        <div class="test-header-right">
+            <button type="button" class="btn btn-test" aria-label="Left Align" ng-click="prevQuestion()" ng-disabled="isFirst">
+                <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-test" aria-label="Left Align" ng-click="nextQuestion()" ng-disabled="isLast">
+                <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-test" aria-label="Left Align" ng-click="cancel()">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+    <div class="modal-body topicBgColor" >
+        <h2 class="modal-title text-lowercase">{{topicName}} Test</h2><br/>
+        <div>
+        {{index}}. {{question}}
+        </div><br/>
+        <ul>
+            <li ng-repeat=" opt in choices " >{{opt}}</li>
+        </ul>
+
+    </div>
+</div>
