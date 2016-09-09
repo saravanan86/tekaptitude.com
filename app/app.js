@@ -26,7 +26,7 @@ var url = 'mongodb://{username}:{password}@{host}:{port}/{db}'.replace( /{userna
     .replace( /{db}/, config.database.db );
 
 app.get('/', function(req, res, next){
-
+console.log('=======process.env.NODE_ENV:',process.env.NODE_ENV,env);
   res.cookie('hostUrl', config.url );
 
   next();
@@ -36,7 +36,7 @@ app.get('/', function(req, res, next){
 //App router
 app.use( allowCrossDomain );
 app.use(cookieParser());
-app.use( express.static( env == 'development' ? 'web' : 'www' ) );
+app.use( express.static( env == 'development' ? 'web' : 'web' ) );
 app.use( '/topics', topics );
 
 
