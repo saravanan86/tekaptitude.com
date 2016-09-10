@@ -23,7 +23,7 @@ function getCookieValue( name ){
 
 app.controller( "topicsController", function( $scope, $uibModal, $http, $location ){
 
-    hostUrl = decodeURIComponent(getCookieValue('hostUrl'));
+    //hostUrl = decodeURIComponent(getCookieValue('hostUrl'));
     console.log('============hostUrl: ',hostUrl);
 
 
