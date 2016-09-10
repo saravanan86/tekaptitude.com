@@ -21,24 +21,40 @@ function getCookieValue( name ){
 
 }
 
+app.run( function( $http ){
+
+    $http.get('/sessionData')
+        .success(function (jsonObj) {
+            hostUrl = jsonObj.hostUrl;
+        });
+
+} );
+
 app.controller( "topicsController", function( $scope, $uibModal, $http, $location ){
 
     hostUrl = decodeURIComponent(getCookieValue('hostUrl'));
     console.log('============hostUrl: ',hostUrl);
-    $http.get( hostUrl+'/topics/topic' ).then( function( res ) {
-        //console.log(res);
-        var topics = res.data,
-            counter = 0;
 
-        $scope.topics = {};
-        $scope.topicsDisplayLimit = topicsDisplayLimit;
+    $http.get('/sessionData')
+        .success(function (jsonObj) {
+            console.log('=====================Session Data: '+jsonObj.hostUrl);
+            hostUrl = jsonObj.hostUrl;
+            $http.get( hostUrl+'/topics/topic' ).then( function( res ) {
+                //console.log(res);
+                var topics = res.data,
+                    counter = 0;
 
-        for( var topic in topics ){
-            $scope.topics[ topics[topic].topic] = topics[topic].title;
+                $scope.topics = {};
+                $scope.topicsDisplayLimit = topicsDisplayLimit;
 
-        }
+                for( var topic in topics ){
+                    $scope.topics[ topics[topic].topic] = topics[topic].title;
 
-    });
+                }
+
+            });
+        });
+
 
     $scope.openTopic = function( topicName ){
 

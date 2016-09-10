@@ -25,11 +25,12 @@ var url = 'mongodb://{username}:{password}@{host}:{port}/{db}'.replace( /{userna
     .replace( /{port}/, config.database.port )
     .replace( /{db}/, config.database.db );
 
-app.get('/', function(req, res, next){
-console.log('=======process.env.NODE_ENV:',process.env.NODE_ENV,env);
-  res.cookie('hostUrl', config.url );
+app.get('/sessionData', function(req, res, next){
 
-  next();
+  res.json({
+    'hostUrl' : config.url
+  });
+  
 });
 
 
