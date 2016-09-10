@@ -10,6 +10,7 @@ var pkg = require('./package.json');
 
 var PROD_FOLDER = 'www/vendor/';
 var DEV_FOLDER = 'web/vendor/';
+var UIB_FOLDER = 'web/uib/';
 var destFolder = PROD_FOLDER;
 
 // Set the banner content
@@ -59,14 +60,17 @@ gulp.task('minify-js', function() {
 });
 
 // Copy Bootstrap core files from node_modules to vendor directory
-gulp.task('bootstrap', function() {
+gulp.task('angular-bootstrap', function() {
+
+        gulp.src(['node_modules/angular-ui-bootstrap/template/**'])
+            .pipe(gulp.dest(UIB_FOLDER+'template'));
 
         return gulp.src(['node_modules/angular-ui-bootstrap/dist/*.js'])
             .pipe(gulp.dest(DEV_FOLDER+'angular-bootstrap'));
 
 });
 
-gulp.task('angular-bootstrap', function() {
+gulp.task('bootstrap', function() {
 
     return gulp.src(['node_modules/bootstrap/dist/**/*', '!**/npm.js', '!**/bootstrap-theme.*', '!**/*.map'])
         .pipe(gulp.dest(DEV_FOLDER+'bootstrap'));
