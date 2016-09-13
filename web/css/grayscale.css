@@ -493,7 +493,7 @@ body {
   left:50%;*/
 }
 .questionFinish{
-  float:right;
+  text-align:right;
 }
 .pagination.questionNav > li{
   display:table-cell;
