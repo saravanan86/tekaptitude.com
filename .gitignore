@@ -1,3 +1,4 @@
 www
 .idea
-node_modules
+node_module
+npm-debug.logs

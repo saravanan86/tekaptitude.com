@@ -1,28 +1,44 @@
 <div class="topic-page">
-    <div class="modal-header topicBgColor test-header">
-        <div class="test-header-left">
-            <b>Time remaining:</b> {{timeLeft}}
-        </div>
-        <div class="test-header-right">
-            <button type="button" class="btn btn-test" aria-label="Left Align" ng-click="prevQuestion()" ng-disabled="isFirst">
-                <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-test" aria-label="Left Align" ng-click="nextQuestion()" ng-disabled="isLast">
-                <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-test" aria-label="Left Align" ng-click="cancel()">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            </button>
+    <div class="modal-header topicBgColor test-header container-fluid">
+        <div class="row">
+            <div class="col-xs-2 col-sm-2 col-md-2 test-header-left"><!--test-header-left-->
+                <b>Time remaining: </b> {{timeLeft}}
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8 test-header-center"><!--test-header-center-->
+                <b>Question</b> <i>{{currentQuestion}}</i> <b>of</b> <i>{{totalQuestions}}</i>
+            </div>
+            <div class="col-xs-2 col-sm-2 col-md-2 test-header-right"><!--test-header-right-->
+                <button type="button" class="btn btn-test" aria-label="Left Align" ng-click="cancel()">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+            </div>
         </div>
     </div>
-    <div class="modal-body topicBgColor" >
-        <h2 class="modal-title text-lowercase">{{topicName}} Test</h2><br/>
+    <div class="modal-body row topicBgColor topicBody">
+        <div class="col-lg-12">
+        <h2 class="modal-title text-lowercase ">{{topicName}} Test</h2><br/>
         <div>
-        {{index}}. {{question}}
+        {{currentQuestion}}. {{question}}
         </div><br/>
         <ul>
-            <li ng-repeat=" opt in choices " >{{opt}}</li>
+            <li ng-repeat=" opt in choices " class="topicQuestion" >
+                <input type="radio" ng-model="answers[currentQuestion]" value="{{$index}}" ng-change="answerSelected( currentQuestion, $index )" >
+                    {{opt}}
+                </input>
+            </li>
         </ul>
+        </div>
+
+    </div>
+    <div class="modal-footer topicBgColor questionNavContainer">
+
+        <ul uib-pagination total-items="totalQuestions*10" ng-model="currentQuestion" max-size="0" class="questionNav" force-ellipses="false" boundary-links="true" ng-change="questionChanged()" previous-text="&lsaquo; Prev" next-text="Next &rsaquo;" first-text="&laquo;First" last-text="Last&raquo;"></ul>
+
+        <div class="questionFinish">
+            <button type="button" class="btn btn-test questionNavButton btn-topic-header" aria-label="Left Align" ng-click="finishTest()">
+                <span>Finish</span>
+            </button>
+        </div>
 
     </div>
 </div>

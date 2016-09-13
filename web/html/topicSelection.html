@@ -1,24 +1,37 @@
 <div class="topic-page">
-    <div class="modal-header topicBgColor test-header">
-        <div class="test-header-left">
-            <h2 class="modal-title text-lowercase">{{topicName}} Aptitude Test</h2>
-        </div>
-        <div class="test-header-right">
-            <button class="btn btn-topic-header" type="button" ng-click="next()">Next</button>
-            <button class="btn btn-topic-header" type="button" ng-click="cancel()">Close</button>
+    <div class="modal-header topicBgColor test-header container-fluid">
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-10 test-header-left">
+                <h2 class="modal-title text-lowercase">{{topicName}} Aptitude Test</h2>
+            </div>
+
+            <div class="col-xs-2 col-sm-2 col-md-2 test-header-right padding">
+                <button type="button" class="btn btn-test" aria-label="Left Align" ng-click="cancel()">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+            </div>
         </div>
     </div>
     <div class="modal-body topicBgColor" >
 
-        <h4 class="zeroMargin text-lowercase">Test instructions:</h4><br/>
+        <div>This <b>{{topicName}} Online Test</b> simulates a real online certification exams. You will be presented multiple
+        choice questions based on core concepts where you will be given multiple options. You will select the best suitable answer
+        for the question and then proceed to the next question without wasting given time. You will get your online test score
+        after completing the test.</div>
+        <br/>
+        <!--<b class="zeroMargin text-lowercase">Test instructions:</b><br/>-->
         <ul>
-            <li> Each test contains total of 50 questions and total duration for test is 30 mins. </li>
+            <li>Total number of questions: <b>20</b></li>
+            <li>Time allotedL <b>30 mins</b></li>
+            <li>Each question carries 1 mark, no negative marks</li>
+            <li>Do not refresh the page.</li>
+            <!--<li> Each test contains total of 50 questions and total duration for test is 30 mins. </li>
             <li> Each correct answer carries 2 marks and wrong answers will deduct 1 mark. </li>
-            <li> You can skip a question and revisit it later.</li>
+            <li> You can skip a question and revisit it later.</li>-->
         </ul>
         <br/>
         <h4 class="zeroMargin text-lowercase">Select level of difficulty:</h4><br/>
-        <div>To begin the test select the difficulty level from below options and click 'Next'</div>
+        <div>To begin the test select the difficulty level from below options.</div>
         <div ng-repeat="alert in alerts" uib-alert class="alert-style" close="closeAlert($index)" dismiss-on-timeout="5000">{{alert.msg}}</div>
         <div class="btn-group-vertical" role="group" aria-label="...">
             <button type="button" class="btn btn-topics-selections btn-block" ng-click="setDifficulty( 0 )">Beginners</button>
