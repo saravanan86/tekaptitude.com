@@ -2,7 +2,7 @@
  * Created by kathires on 8/8/16.
  */
 var topicsDisplayLimit = 10,
-    hostUrl = location.host === 'www.tekaptitude.com' ?  'https://tekaptitude.herokuapp.com' : 'http://localhost:3000',
+    hostUrl = location.host.match(/(www.)?tekaptitude\.com/) ?  'https://tekaptitude.herokuapp.com' : 'http://localhost:3000',
     questions = null,
     MAX_LIMIT = 5;
 
