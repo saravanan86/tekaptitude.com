@@ -22,9 +22,7 @@
         </div><br/>
         <ul>
             <li ng-repeat=" opt in choices " class="topicQuestion" >
-                <input type="radio" ng-model="answers[currentQuestion]" value="{{$index}}" ng-change="answerSelected( currentQuestion, $index )" >
-                    {{opt}}
-                </input>
+                <label for="questionOptions_{{$index}}" ><input type="radio" id="questionOptions_{{$index}}" name="questionOptions" ng-model="answers[currentQuestion]" value="{{$index}}" ng-change="answerSelected( currentQuestion, $index )" /> &nbsp;{{opt}}</label>
             </li>
         </ul>
         </div>

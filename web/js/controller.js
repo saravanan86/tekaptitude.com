@@ -30,7 +30,7 @@ app.controller( "topicsController", function( $scope, $uibModal, $http, $locatio
 
 
     $http.get( hostUrl+'/topics/topic' ).then( function( res ) {
-        //console.log(res);
+        console.log(res.data);
         var topics = res.data,
             counter = 0;
 
@@ -45,8 +45,8 @@ app.controller( "topicsController", function( $scope, $uibModal, $http, $locatio
     });
 
 
-    $scope.openTopic = function( topicName ){
-
+    $scope.openTopic = function( topicName, topicId ){
+console.log('=========openTopic===',topicName);
         var modalInstance = $uibModal.open( {
 
             templateUrl: 'html/topicSelection.html',
@@ -54,7 +54,10 @@ app.controller( "topicsController", function( $scope, $uibModal, $http, $locatio
             backdrop: false,
             resolve:{
                 topicInfo:function () {
-                    return topicName;
+                    return {
+                        topicName: topicName,
+                        topicId: topicId
+                    }
                 }
             }
 
@@ -63,12 +66,34 @@ app.controller( "topicsController", function( $scope, $uibModal, $http, $locatio
 
 } );
 
+app.controller( "showResultController", function( $scope, $uibModalInstance, $http, modalService, resultInfo ) {
+
+    var CORRECT_ANSWERS = "info",
+        WRONG_ANSWERS = "danger",
+        UNATTENDED_ANSWERS = "warning";
+
+    $scope.topicName = resultInfo.topicName;
+    $scope.resultInfo = resultInfo;
+    $scope.resultProgress = [
+        {"value":10,type:CORRECT_ANSWERS},
+        {"value":18,type:WRONG_ANSWERS},
+        {"value":72,type:UNATTENDED_ANSWERS}
+    ];
+
+    $scope.cancel = function(){
+
+        $uibModalInstance.dismiss();
+
+    };
+
+});
+
 app.controller( "topicTestController", function( $scope, $uibModalInstance, $uibModal, $interval, $http, modalService, topicInfo ){
 
     var secsRemaining = 1800;
 
     $scope.currentQuestion = 1;
-    $scope.topicName = topicInfo;console.log('=============questions.length===',questions.length);
+    $scope.topicName = topicInfo.topicName;console.log('=============questions.length===',questions.length);
     $scope.totalQuestions = questions.length;
     $scope.maxLimit = MAX_LIMIT;
     $scope.answers = {};
@@ -115,7 +140,31 @@ app.controller( "topicTestController", function( $scope, $uibModalInstance, $uib
 
     $scope.confirmOk = function(){
 
-        //modalService.close();
+        modalService.close();
+        $uibModalInstance.dismiss();
+        var resultInfo = {
+
+            questions: questions.lenght,
+            answeredQuestions: Object.keys($scope.answers).length,
+            correctAnswers: 0,
+            totalTime: 1800,
+            timeTaken: 0,
+            topicName: $scope.topicName,
+            difficulty: topicInfo.difficulty
+
+        };
+        var modalInstance = $uibModal.open( {
+
+            templateUrl: 'html/showResult.html',
+            controller: 'showResultController',
+            backdrop: false,
+            resolve:{
+                resultInfo:function () {
+                    return resultInfo;
+                }
+            }
+
+        });
 
     };
 
@@ -123,7 +172,7 @@ app.controller( "topicTestController", function( $scope, $uibModalInstance, $uib
 
         var questionsAnswered = Object.keys($scope.answers).length;
         if( questions.length > questionsAnswered ){
-console.log('========Total Questions: ',$scope.totalQuestions,questionsAnswered,($scope.totalQuestions - questionsAnswered));
+
             $scope.confirmMessage = "You have still "+($scope.totalQuestions - questionsAnswered)+" questions unanswered. Are you sure you want to finish the test?";
 
            // alert('Not all questions are completed.');
@@ -155,15 +204,16 @@ app.controller( "topicSelectionController", function( $scope, $uibModalInstance,
 
     var difficulty = null;
 
-    $scope.topicName = topicInfo;
+    $scope.topicName = topicInfo.topicName;
+    $scope.topicId = topicInfo.topicId;
     $scope.alerts = [];
 
     $scope.setDifficulty = function( val ){
 
         difficulty = val;
 
-        $http.get( hostUrl+'/topics/'+$scope.topicName+'/'+difficulty ).then( function( res ) {
-            console.log('======10',res.data.questions,'/tests/'+$scope.topicName+'/'+difficulty);
+        $http.get( hostUrl+'/topics/'+encodeURIComponent($scope.topicId)+'/'+difficulty ).then( function( res ) {
+            console.log('======10',res.data.questions,'/tests/'+$scope.topicId+'/'+difficulty);
             questions = res.data.questions;
             $uibModalInstance.close();
             var modalInstance = $uibModal.open( {
@@ -174,7 +224,11 @@ app.controller( "topicSelectionController", function( $scope, $uibModalInstance,
                 animation: false,
                 resolve:{
                     topicInfo:function () {
-                        return topicInfo;
+                        return {
+                            topicName: topicInfo.topicName,
+                            topicId:topicInfo.topicId,
+                            difficulty:difficulty
+                        };
                     }
                 }
 

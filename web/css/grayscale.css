@@ -335,6 +335,7 @@ body {
 
 .topicQuestion{
   list-style: none;
+  padding: 5px;
 }
 
 .topic-page{

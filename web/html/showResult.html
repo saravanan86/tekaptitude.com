@@ -1,0 +1,26 @@
+<div class="topic-page">
+    <div class="modal-header topicBgColor test-header container-fluid">
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-10 test-header-left">
+                <h2 class="modal-title text-lowercase">{{topicName}} Aptitude Test Result</h2>
+            </div>
+
+            <div class="col-xs-2 col-sm-2 col-md-2 test-header-right padding">
+                <button type="button" class="btn btn-test" aria-label="Left Align" ng-click="cancel()">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body topicBgColor" >
+
+        <uib-progress><uib-bar ng-repeat="bar in resultProgress track by $index" value="bar.value" type="{{bar.type}}"><span ng-hide="bar.value < 5">{{bar.value}}%</span></uib-bar></uib-progress>
+        <br/><br/>
+        <ul>
+            <li ng-repeat=" (key, value) in resultInfo " class="topicQuestion" >
+                {{key}} : {{value}}
+            </li>
+        </ul>
+
+    </div>
+</div>

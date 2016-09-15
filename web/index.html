@@ -95,7 +95,7 @@
             <div class="container">
                 <div class="col-lg-8 col-lg-offset-2">
                     <h2>Tech Topics</h2>
-                    <p class="btn btn-topics btn-primary" ng-repeat=" (key,val) in topics " ng-if="$index < topicsDisplayLimit" ng-click="openTopic( val );" >{{val}}</p>
+                    <p class="btn btn-topics btn-primary" ng-repeat=" (key,val) in topics " ng-if="$index < topicsDisplayLimit" ng-click="openTopic( val, key );" >{{val}}</p>
                     <p class="btn btn-topics btn-primary">More...</p>
                 </div>
             </div>
