@@ -4,6 +4,7 @@ var express = require('express'),
     topics = require( './topics' ),
     config = require( './config' ),
     cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
     app = express();
 
 var allowCrossDomain = function(req, res, next) {
@@ -37,6 +38,8 @@ app.get('/sessionData', function(req, res, next){
 //App router
 app.use( allowCrossDomain );
 app.use(cookieParser());
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use( express.static( env == 'development' ? 'web' : 'web' ) );
 app.use( '/topics', topics );
 

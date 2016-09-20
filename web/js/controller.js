@@ -74,11 +74,28 @@ app.controller( "showResultController", function( $scope, $uibModalInstance, $ht
 
     $scope.topicName = resultInfo.topicName;
     $scope.resultInfo = resultInfo;
-    $scope.resultProgress = [
-        {"value":10,type:CORRECT_ANSWERS},
-        {"value":18,type:WRONG_ANSWERS},
-        {"value":72,type:UNATTENDED_ANSWERS}
-    ];
+
+
+    $http.post( hostUrl+'/topics/answers', resultInfo ).then( function( res ) {
+
+        console.log('=======ANSWER DATA====', res.data);
+        var result = res.data,
+            correctAnswers = result.correctAnswers,
+            wrongAnswers = result.wrongAnswers,
+            totalAnswers = result.totalAnswers,
+            totalQuestions = result.totalQuestions;
+        function getPercentage( val, totalVal ){
+            return Math.round((val/totalVal)*100);
+        }
+        $scope.resultInfo = res.data;
+        $scope.resultProgress = [
+            {"value":getPercentage(correctAnswers,totalQuestions),type:CORRECT_ANSWERS},
+            {"value":getPercentage(wrongAnswers,totalQuestions),type:WRONG_ANSWERS},
+            {"value":getPercentage((totalQuestions-totalAnswers),totalQuestions),type:UNATTENDED_ANSWERS}
+        ];
+
+    });
+
 
     $scope.cancel = function(){
 
@@ -97,20 +114,22 @@ app.controller( "topicTestController", function( $scope, $uibModalInstance, $uib
     $scope.totalQuestions = questions.length;
     $scope.maxLimit = MAX_LIMIT;
     $scope.answers = {};
+    $scope.questionIndex = {};
 
     function setQuestion () {
 
-        $scope.question = questions[$scope.currentQuestion-1].question;
-        $scope.choices = questions[$scope.currentQuestion-1].choices;
+        $scope.question = questions[$scope.currentQuestion-1].questions.question;
+        $scope.choices = questions[$scope.currentQuestion-1].questions.choices;
 
     }
 
     setQuestion();
 
-    $scope.answerSelected = function( questionIndex, answer ){
+    $scope.answerSelected = function( index, answer ){
 
-        $scope.answers[ questionIndex ] = answer;
-        console.log('============Answers ',$scope.answers, $scope.answers[ questionIndex ]);
+        $scope.answers[ index ] = answer;
+        $scope.questionIndex[ parseInt(questions[index-1].questions.index) ] = answer;
+        console.log('============Answers ',index-1,questions,questions[index-1].questions.index, $scope.answers, $scope.answers[ index ]);
 
     };
 
@@ -144,15 +163,17 @@ app.controller( "topicTestController", function( $scope, $uibModalInstance, $uib
         $uibModalInstance.dismiss();
         var resultInfo = {
 
-            questions: questions.lenght,
-            answeredQuestions: Object.keys($scope.answers).length,
-            correctAnswers: 0,
+            questions: questions,
+            answers: $scope.answers,
+            questionIndex : $scope.questionIndex,
             totalTime: 1800,
             timeTaken: 0,
-            topicName: $scope.topicName,
+            topicId: topicInfo.topicId,
             difficulty: topicInfo.difficulty
 
         };
+        console.log('=======Answer obj:', resultInfo.answers);
+        console.log('=======QuestionIndex obj:', resultInfo.questionIndex);
         var modalInstance = $uibModal.open( {
 
             templateUrl: 'html/showResult.html',
@@ -212,9 +233,9 @@ app.controller( "topicSelectionController", function( $scope, $uibModalInstance,
 
         difficulty = val;
 
-        $http.get( hostUrl+'/topics/'+encodeURIComponent($scope.topicId)+'/'+difficulty ).then( function( res ) {
-            console.log('======10',res.data.questions,'/tests/'+$scope.topicId+'/'+difficulty);
-            questions = res.data.questions;
+        $http.get( hostUrl+'/topics/'+encodeURIComponent($scope.topicId)+'/'+difficulty+'/30' ).then( function( res ) {
+            console.log('======10',res.data,hostUrl+'/topics/'+encodeURIComponent($scope.topicId)+'/'+difficulty+'/30' );
+            questions = res.data;
             $uibModalInstance.close();
             var modalInstance = $uibModal.open( {
 
