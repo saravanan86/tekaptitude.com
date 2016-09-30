@@ -4,7 +4,11 @@
 var topicsDisplayLimit = 10,
     hostUrl = location.host.match(/(www.)?tekaptitude\.com/) ?  'https://tekaptitude.herokuapp.com' : 'http://localhost:3000',
     questions = null,
-    MAX_LIMIT = 5;
+    MAX_LIMIT = 5,
+    PASS_PERCENT=70,
+    SUCCESS_MSG="Success. You scored %d%",
+    FAIL_MSG="Fail. You scored %d%",
+    TOTAL_TIME=1800;
 
 function getCookieValue( name ){
 
@@ -66,33 +70,69 @@ console.log('=========openTopic===',topicName);
 
 } );
 
-app.controller( "showResultController", function( $scope, $uibModalInstance, $http, modalService, resultInfo ) {
+app.controller( "showResultController", function( $scope, $uibModalInstance, $http, $interval, modalService, resultInfo ) {
 
     var CORRECT_ANSWERS = "info",
         WRONG_ANSWERS = "danger",
         UNATTENDED_ANSWERS = "warning";
 
     $scope.topicName = resultInfo.topicName;
-    $scope.resultInfo = resultInfo;
+    $scope.isResultReady = false;
+    $scope.status={ open:false };
 
 
     $http.post( hostUrl+'/topics/answers', resultInfo ).then( function( res ) {
 
-        console.log('=======ANSWER DATA====', res.data);
+        //console.log('=======ANSWER DATA====', res.data);
+        res.data.timeTaken = resultInfo.timeTaken;
+        $scope.result = res.data;
         var result = res.data,
             correctAnswers = result.correctAnswers,
             wrongAnswers = result.wrongAnswers,
             totalAnswers = result.totalAnswers,
-            totalQuestions = result.totalQuestions;
+            totalQuestions = result.totalQuestions,
+            totalUnattendedQuestions = (totalQuestions-totalAnswers);
         function getPercentage( val, totalVal ){
             return Math.round((val/totalVal)*100);
         }
         $scope.resultInfo = res.data;
-        $scope.resultProgress = [
-            {"value":getPercentage(correctAnswers,totalQuestions),type:CORRECT_ANSWERS},
-            {"value":getPercentage(wrongAnswers,totalQuestions),type:WRONG_ANSWERS},
-            {"value":getPercentage((totalQuestions-totalAnswers),totalQuestions),type:UNATTENDED_ANSWERS}
-        ];
+        var correctBar = 0,
+            wrongBar = 0,
+            totalBar = 0;
+        var delay = $interval(function(){
+
+            if( correctAnswers == 0 && wrongAnswers == 0 && totalUnattendedQuestions ==0 ){
+                //console.log('=====================SHOWING RESULT NOW========');
+                //clearTimeout(delay);
+                $interval.cancel( delay );
+                var resultPercent = getPercentage(correctBar,totalQuestions);
+                $scope.testResult = (resultPercent >= 70 ? SUCCESS_MSG.replace(/%d/,resultPercent) : FAIL_MSG.replace(/%d/,resultPercent) );
+                $scope.isResultReady = true;
+            }
+
+            $scope.resultProgress = [
+                {"value":getPercentage(correctBar,totalQuestions),type:CORRECT_ANSWERS},
+                {"value":getPercentage(wrongBar,totalQuestions),type:WRONG_ANSWERS},
+                {"value":getPercentage(totalBar,totalQuestions),type:UNATTENDED_ANSWERS}
+            ];
+            //console.log('=======resultProgress==',$scope.resultProgress,correctAnswers,wrongAnswers,totalUnattendedQuestions);
+            if( correctAnswers > 0 ){
+                correctBar++;
+                correctAnswers--;
+            }
+            if( wrongAnswers > 0 ){
+                wrongBar++;
+                wrongAnswers--
+            }
+            if( totalUnattendedQuestions > 0 ){
+                totalBar++;
+                totalUnattendedQuestions--;
+            }
+
+
+
+        },150);
+
 
     });
 
@@ -107,14 +147,20 @@ app.controller( "showResultController", function( $scope, $uibModalInstance, $ht
 
 app.controller( "topicTestController", function( $scope, $uibModalInstance, $uibModal, $interval, $http, modalService, topicInfo ){
 
-    var secsRemaining = 1800;
+    var secsRemaining = TOTAL_TIME,
+        flag = false,
+        finishFlag = false,
+        testInterval = null;
 
     $scope.currentQuestion = 1;
-    $scope.topicName = topicInfo.topicName;console.log('=============questions.length===',questions.length);
+    $scope.topicName = topicInfo.topicName;
     $scope.totalQuestions = questions.length;
     $scope.maxLimit = MAX_LIMIT;
     $scope.answers = {};
     $scope.questionIndex = {};
+    $scope.alerts = [];
+    $scope.isConfirmBox = true;
+    $scope.isAlertBox = false;
 
     function setQuestion () {
 
@@ -129,7 +175,6 @@ app.controller( "topicTestController", function( $scope, $uibModalInstance, $uib
 
         $scope.answers[ index ] = answer;
         $scope.questionIndex[ parseInt(questions[index-1].questions.index) ] = answer;
-        console.log('============Answers ',index-1,questions,questions[index-1].questions.index, $scope.answers, $scope.answers[ index ]);
 
     };
 
@@ -160,20 +205,89 @@ app.controller( "topicTestController", function( $scope, $uibModalInstance, $uib
     $scope.confirmOk = function(){
 
         modalService.close();
+        showResultPage();
+
+    };
+
+    $scope.finishTest = function(timeOver){
+
+        var questionsAnswered = Object.keys($scope.answers).length;
+        if( timeOver ){
+
+            $scope.isAlertBox = true;
+            $scope.isConfirmBox = false;
+            $scope.confirmMessage = "Your test time is up, going to result page now.";
+
+            // alert('Not all questions are completed.');
+            modalService.open($scope, 'html/confirmDialog.html', 'sm', 'confirmWindowClass');//'topicTestController',
+
+
+        }else if( questions.length > questionsAnswered ){
+
+            $scope.isAlertBox = false;
+            $scope.isConfirmBox = true;
+            $scope.confirmMessage = "You have still "+($scope.totalQuestions - questionsAnswered)+" questions unanswered. Are you sure you want to finish the test?";
+
+           // alert('Not all questions are completed.');
+            modalService.open($scope, 'html/confirmDialog.html', 'sm', 'confirmWindowClass');//'topicTestController',
+
+        }else{
+
+            showResultPage();
+
+        }
+
+    };
+
+    $scope.closeAlert = function( index ){
+
+        $scope.alerts.splice( index, 1);
+
+    }
+
+    $scope.timeLeft = "30:00";
+
+    testInterval = $interval(function () {
+
+        var secs = secsRemaining%60;
+
+        if( secsRemaining <= 30 && flag === false ){
+            $scope.alerts = [{"msg":"You have only 30 secs remaining."}];
+            flag = true;
+        }
+
+        if( secsRemaining <= 0 && finishFlag === false ){
+
+            $scope.finishTest( true );
+            finishFlag = true;
+            testInterval = null;
+            
+        }
+
+        //$scope.timeLeft = Math.floor(secsRemaining/60)+ ( secs < 10 ? ":0" : ":" ) + secs;
+        $scope.timeLeft = secsFormatter( secsRemaining );
+        secsRemaining--;
+
+    }, 1000);
+
+    function showResultPage() {
+
+        $interval.cancel( testInterval );
         $uibModalInstance.dismiss();
+        //console.log('==========TIME TAKEN FOR RESULT PAGE======',secsRemaining,secsFormatter( TOTAL_TIME - secsRemaining ));
         var resultInfo = {
 
             questions: questions,
             answers: $scope.answers,
             questionIndex : $scope.questionIndex,
             totalTime: 1800,
-            timeTaken: 0,
+            timeTaken: secsFormatter( TOTAL_TIME - secsRemaining ),
             topicId: topicInfo.topicId,
+            topicName: topicInfo.topicName,
             difficulty: topicInfo.difficulty
 
         };
-        console.log('=======Answer obj:', resultInfo.answers);
-        console.log('=======QuestionIndex obj:', resultInfo.questionIndex);
+
         var modalInstance = $uibModal.open( {
 
             templateUrl: 'html/showResult.html',
@@ -187,36 +301,13 @@ app.controller( "topicTestController", function( $scope, $uibModalInstance, $uib
 
         });
 
-    };
+    }
 
-    $scope.finishTest = function(){
+    function secsFormatter( secs ){
+        //console.log('===========secsFormatter===',secs,(Math.floor(secs/60)+ ( (secs%60) < 10 ? ":0" : ":" ) + (secs%60)));
+        return (Math.floor(secs/60)+ ( (secs%60) < 10 ? ":0" : ":" ) + (secs%60));
 
-        var questionsAnswered = Object.keys($scope.answers).length;
-        if( questions.length > questionsAnswered ){
-
-            $scope.confirmMessage = "You have still "+($scope.totalQuestions - questionsAnswered)+" questions unanswered. Are you sure you want to finish the test?";
-
-           // alert('Not all questions are completed.');
-            modalService.open($scope, 'html/confirmDialog.html', 'sm', 'confirmWindowClass');//'topicTestController',
-
-        }else{
-
-
-
-        }
-
-    };
-
-    $scope.timeLeft = "30:00";
-
-    $interval(function () {
-
-        var secs = secsRemaining%60;
-
-        $scope.timeLeft = Math.floor(secsRemaining/60)+ ( secs < 10 ? ":0" : ":" ) + secs;
-        secsRemaining--;
-
-    }, 1000);
+    }
 
 
 } );
@@ -272,10 +363,6 @@ app.controller( "topicSelectionController", function( $scope, $uibModalInstance,
 
     };
 
-    $scope.closeAlert = function( index ){
 
-        $scope.alerts.splice( index, 1);
-
-    }
 
 } );

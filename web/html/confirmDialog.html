@@ -3,12 +3,13 @@
         {{confirmMessage}}
     </div>
     <div class="modal-footer confirmDialogButton">
-        <button class="btn btn-test btn-topic-header" type="button" ng-click="confirmOk(true)"><span>Yes</span></button>
-        <button class="btn btn-test btn-topic-header" type="button" ng-click="confirmClose()"><span>Cancel</span></button>
+        <button class="btn btn-test btn-topic-header" ng-show="isConfirmBox" type="button" ng-click="confirmOk(true)"><span>Yes</span></button>
+        <button class="btn btn-test btn-topic-header" ng-show="isConfirmBox" type="button" ng-click="confirmClose()"><span>Cancel</span></button>
+        <button class="btn btn-test btn-topic-header" ng-show="isAlertBox" type="button" ng-click="confirmOk(true)"><span>Ok</span></button>
     </div>
 </div>
 <script>
     $('.modal-content .confirmDialogContainer').parent().addClass('modal-content confirmDialog');
-    console.log('=====MODAL window open is called 1', $('.modal-content .confirmDialog').parent().className);
+    //console.log('=====MODAL window open is called 1', $('.modal-content .confirmDialog').parent().className);
 </script>
 

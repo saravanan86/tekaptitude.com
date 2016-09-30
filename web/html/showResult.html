@@ -2,7 +2,7 @@
     <div class="modal-header topicBgColor test-header container-fluid">
         <div class="row">
             <div class="col-xs-10 col-sm-10 col-md-10 test-header-left">
-                <h2 class="modal-title text-lowercase">{{topicName}} Aptitude Test Result</h2>
+                <h2 class="modal-title text-lowercase">{{topicName}} Test Result</h2>
             </div>
 
             <div class="col-xs-2 col-sm-2 col-md-2 test-header-right padding">
@@ -15,12 +15,35 @@
     <div class="modal-body topicBgColor" >
 
         <uib-progress><uib-bar ng-repeat="bar in resultProgress track by $index" value="bar.value" type="{{bar.type}}"><span ng-hide="bar.value < 5">{{bar.value}}%</span></uib-bar></uib-progress>
-        <br/><br/>
-        <ul>
-            <li ng-repeat=" (key, value) in resultInfo " class="topicQuestion" >
-                {{key}} : {{value}}
-            </li>
-        </ul>
+        <br/>
+        <div><div class="resultLegendContainer"><div class="resultLegend correct" ></div>&nbsp;Correct%</div><div class="resultLegendContainer"><div class="resultLegend wrong" ></div>&nbsp;Wrong%</div><div class="resultLegendContainer"><div class="resultLegend attended" ></div>&nbsp;Unattended%</div></div>
+        <br/>
+        <div ng-show="isResultReady">
+
+
+                <div><h2 class="resultMsg">{{testResult}}</h2></div>
+            <uib-accordion>
+            <div uib-accordion-group class="panel-default" is-open="status.open">
+                <uib-accordion-heading>
+                    Click here to see test result details. <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                </uib-accordion-heading>
+
+                <ul class="resultSummary">
+                    <li>Total number of questions: <b>{{result.totalQuestions}}</b><div class="color-swatch brand-primary"></div></li>
+                    <li>Questions attented: <b>{{result.totalAnswers}}</b></li>
+                    <li>Answered correctly: <b>{{result.correctAnswers}}</b></li>
+                    <li>Time taken: <b>{{result.timeTaken}} mins</b></li>
+                    <!--<li> Each test contains total of 50 questions and total duration for test is 30 mins. </li>
+                    <li> Each correct answer carries 2 marks and wrong answers will deduct 1 mark. </li>
+                    <li> You can skip a question and revisit it later.</li>-->
+                </ul>
+
+            </div>
+
+        </div>
+        </uib-accordion>
+
+
 
     </div>
 </div>

@@ -456,7 +456,7 @@ body {
   color:black;
   background-color: #999999;
   border: 1px solid darkred;
-  margin-bottom: 0px;
+  margin: 15px;
 }
 .alert-style.ng-enter,
 .alert-style.ng-leave {
@@ -560,4 +560,50 @@ body {
 }
 .confirmDialogButton{
   text-align: center;
+}
+.resultSummary{
+  list-style: none;
+  font-size: large;
+}
+.resultLegendContainer{
+
+  display: inline-block;
+  margin-right: 30px;
+
+}
+.resultLegend{
+
+  width: 20px;
+  height: 15px;
+  display: inline-block;
+  vertical-align: middle;
+
+}
+.resultLegend.correct{
+  background-color: #5bc0de;
+}
+.resultLegend.wrong{
+  background-color: #d9534f;
+}
+.resultLegend.attended{
+  background-color: #f0ad4e;
+}
+h4.panel-title{
+  text-transform: none;
+}
+div.collapse.in{
+  background-color: darkgray;
+}
+.panel-title a{
+  color: black;
+}
+.panel-default{
+  background-color: darkgray;
+}
+.panel-default>.panel-heading {
+  background-color: darkgray;
+}
+.resultMsg{
+  text-align: center;
+  text-transform: none;
 }
