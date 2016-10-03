@@ -70,6 +70,129 @@ console.log('=========openTopic===',topicName);
 
 } );
 
+app.controller( "loginPageController", function( $scope, $uibModalInstance, $http, $rootScope, loginService ){
+
+    $scope.alerts = [];
+
+    //$scope.login = {email:"test"};
+    //{"msg":"You have only 30 secs remaining.\nYou have only 30 secs remaining."}
+
+    $scope.closeAlert = function(){
+
+        $scope.alerts = [];
+
+    };
+
+    $scope.cancel = function(){
+
+        $uibModalInstance.dismiss();
+
+    };
+
+    $scope.submitPage = function( loginForm ){
+
+        var email = ( loginForm ? loginForm.email : "" ),
+            password = ( loginForm ? loginForm.password : "" ),
+            errMsg = "";
+
+        if( email === "" ){
+
+            errMsg = "Email address is required. Please enter a valid email address.\n";
+            //$scope.alerts = [{"msg":"You have only 30 secs remaining.\nYou have only 30 secs remaining."+loginForm.email}];
+        } else if( !email.match(/[^\s]*[a-zA-Z0-9]@[^\s]*[a-zA-Z0-9]\.[a-zA-Z0-9][^\s]*/) ){
+
+            errMsg = "Please enter a valid email address.\n";
+
+        }
+        if( password === "" ){
+
+            errMsg += "Password is required. Please enter a password.";
+
+        }
+        if( errMsg != "" ){
+
+            $scope.alerts = [{"msg": errMsg}];
+            return;
+
+        }
+
+        var userInfo = {
+
+            email:email,
+            password:password
+
+        };
+
+        $http.post( hostUrl+'/users/user', userInfo ).then( function( res ) {
+
+            console.log('=======ANSWER DATA ====', res.data);
+            if( res.data.email ){
+
+                $uibModalInstance.dismiss();
+                loginService.setUserInfo( res.data );
+                $rootScope.$emit("logged-in",res.data);
+
+            }else{
+                $scope.alerts = [{"msg": "Username/password entered is incorrect. Please try again."}];
+                return;
+            }
+
+        });
+
+        /*else if( password.match(/[\s]/) || (password.length > 7 && password.length < 17) ){
+
+            errMsg = "Please enter a valid email address.";
+            //Password should be min 8 and max 16 characters in length and no spaces allowed.
+            
+
+        }*/
+        //console.log('==============loginForm: ', loginForm);
+        //$scope.alerts = [{"msg":"You have only 30 secs remaining.\nYou have only 30 secs remaining."+loginForm.email}];
+
+    }
+
+} );
+
+app.controller( "navController", function( $scope, $rootScope ){
+
+    $scope.isLoggedIn = false;
+    $rootScope.$on("logged-in",function( event, userInfo ){
+        
+        $scope.isLoggedIn = true;
+        
+    });
+    
+} )
+
+app.controller( "loginController", function( $scope, $uibModal, $rootScope, loginService ){
+
+    $scope.isLoggedIn = false;
+    $scope.userInfo = {};
+    $scope.openLogin = function(){
+
+        var modalInstance = $uibModal.open( {
+
+            templateUrl: 'html/login.html',
+            controller: 'loginPageController',
+            size: 'sm',
+            backdrop: false
+
+        });
+
+    };
+
+    //console.log('===============SERVICE UPDATED====', loginService.getUserInfo());
+    $rootScope.$on("logged-in",function( event, userInfo ){
+
+        $scope.isLoggedIn = true;
+        $scope.userInfo = userInfo;
+        console.log('===============SERVICE UPDATED====', loginService.getUserInfo());
+        console.log('============LOGGED IN EVENT: ',event, userInfo);
+
+    });
+
+} );
+
 app.controller( "showResultController", function( $scope, $uibModalInstance, $http, $interval, modalService, resultInfo ) {
 
     var CORRECT_ANSWERS = "info",

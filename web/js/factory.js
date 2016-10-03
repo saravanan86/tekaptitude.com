@@ -1,4 +1,4 @@
-app.factory('modalService', [ '$uibModal', function ($uibModal) {
+app.factory( 'modalService', [ '$uibModal', function ($uibModal) {
 
         var self = this;
         var modalInstance = null;
@@ -12,9 +12,8 @@ app.factory('modalService', [ '$uibModal', function ($uibModal) {
             });
 
             modalInstance.rendered = function(){
-                console.log('======MODAL WINDOW IS OPENED====');
             }
-            console.log('=====MODAL window open is called 2');
+
         };
 
         self.close = function () {
@@ -24,3 +23,31 @@ app.factory('modalService', [ '$uibModal', function ($uibModal) {
         return self;
     }
 ]);
+
+app.factory( 'loginService', [ '$cookies', function($cookies){
+
+    var self = this,
+        userInfo = {};
+
+    self.getUserInfo = function(){
+
+        return userInfo;
+
+    };
+
+    self.setUserInfo = function( info ){
+
+        userInfo = info;
+
+    };
+
+
+    self.isLoggedIn = function(){
+
+        return (userInfo.email != 'undefined');
+
+    };
+
+    return self;
+
+}] );

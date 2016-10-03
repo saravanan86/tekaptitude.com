@@ -1,1 +1,1 @@
-var app = angular.module("techApt", ["ui.bootstrap","ngRoute", "ngAnimate"]);
+var app = angular.module("techApt", ["ui.bootstrap","ngRoute", "ngAnimate", "ngCookies"]);

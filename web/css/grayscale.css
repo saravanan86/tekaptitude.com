@@ -352,6 +352,13 @@ body {
   margin: 0;
   left:10%;
 }
+.modal-dialog.modal-sm {
+  width:50%;
+  height: 40%;
+  left: 25%;
+  position: absolute;
+  top:25%;
+}
 .modal-content {
   height: 100%;
   min-height: 80%;
@@ -456,7 +463,8 @@ body {
   color:black;
   background-color: #999999;
   border: 1px solid darkred;
-  margin: 15px;
+  /*margin: 15px;*/
+  white-space: pre-line;
 }
 .alert-style.ng-enter,
 .alert-style.ng-leave {
@@ -473,7 +481,10 @@ body {
 .alert-style.ng-enter.ng-enter-active {
   opacity: 1;
 }
-
+.alert{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 /*.pagination-sm>.disabled>>a{
   background-color: transparent;
 }
@@ -580,7 +591,7 @@ body {
 
 }
 .resultLegend.correct{
-  background-color: #5bc0de;
+  background-color: green;
 }
 .resultLegend.wrong{
   background-color: #d9534f;
@@ -590,9 +601,6 @@ body {
 }
 h4.panel-title{
   text-transform: none;
-}
-div.collapse.in{
-  background-color: darkgray;
 }
 .panel-title a{
   color: black;
@@ -606,4 +614,33 @@ div.collapse.in{
 .resultMsg{
   text-align: center;
   text-transform: none;
+}
+.loginLabel{
+  text-align: right;
+  padding-right:5px;
+  padding-bottom: 10px;
+  font-size: large;
+  font-weight: bold;
+}
+.loginLabel label:after {
+  color: #e32;
+  content: ' *';
+  display:inline;
+}
+@media only screen and (max-device-width: 480px) {
+  .loginLabelPhone{
+    display: none;
+  }
+}
+.loginInput{
+  text-align: left;
+  padding-left: 5px;
+  padding-bottom:10px;
+}
+.progress-bar-info{
+  background-color: green;
+}
+.myAccountList{
+  list-style: none;
+  font-size: larger;
 }

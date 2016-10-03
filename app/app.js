@@ -2,6 +2,7 @@ var express = require('express'),
     MongoClient = require('mongodb').MongoClient,
     db = require( './db' ),
     topics = require( './topics' ),
+    users = require( './users' ),
     config = require( './config' ),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
@@ -42,7 +43,7 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use( express.static( env == 'development' ? 'web' : 'web' ) );
 app.use( '/topics', topics );
-
+app.use( '/users', users );
 
 // Monogo DB connection and Server start up
 

@@ -33,7 +33,7 @@
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" ng-app="techApt">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" ng-controller="navController">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
@@ -54,11 +54,11 @@
                     <li>
                         <a class="page-scroll" href="#topics">Topics</a>
                     </li>
-                    <li>
-                        <a class="page-scroll" href="#login">Login</a>
+                    <li ng-show="!isLoggedIn">
+                        <a class="page-scroll" href="#login">Login/Sign up</a>
                     </li>
-                    <li>
-                        <a class="page-scroll" href="#signup">Sign up</a>
+                    <li ng-show="isLoggedIn">
+                        <a class="page-scroll" href="#login">My Account</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#about">About</a>
@@ -102,6 +102,42 @@
                     <p class="btn btn-topics btn-primary" ng-repeat=" (key,val) in topics " ng-if="$index < topicsDisplayLimit" ng-click="openTopic( val, key );" >{{val}}</p>
                     <p class="btn btn-topics btn-primary">More...</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="login" class="container content-section text-center" ng-controller="loginController">
+        <div class="row" ng-show="!isLoggedIn">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2 class="text-lowercase">Login/Sign up</h2>
+                <p>
+                    You can create an account or login with your credentials to track your performance here.
+                    Account creation is simple process and all you need is an email id and password.
+                    When you use account all your tests will be tracked with date and scores.
+                    Use below links for login or sign up.
+                </p>
+                <ul class="list-inline banner-social-buttons">
+                    <li>
+                        <a ng-click="openLogin()" class="btn btn-default btn-lg"> <span class="network-name">Login</span></a>
+                    </li>
+                    <li>
+                        <a href="#" class="btn btn-default btn-lg"> <span class="network-name">Sign up</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" ng-show="isLoggedIn">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2 class="text-lowercase">My Account</h2>
+                <ul class="myAccountList">
+                    <li>{{userInfo.firstname + " " +userInfo.lastname}}</li>
+                    <li>{{userInfo.email }}</li>
+                </ul><br/>
+                <ul class="list-inline banner-social-buttons">
+                    <li>
+                        <a href="#" class="btn btn-default btn-lg"> <span class="network-name">Sign out</span></a>
+                    </li>
+                </ul>
             </div>
         </div>
     </section>
@@ -168,6 +204,7 @@
     <script src="vendor/angular/angular.min.js"></script>
     <script src="vendor/angular/angular-route.min.js"></script>
     <script src="vendor/angular/angular-animate.min.js"></script>
+    <script src="vendor/angular/angular-cookies.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="vendor/angular-bootstrap/ui-bootstrap.js"></script>
@@ -178,53 +215,9 @@
 
     <!-- Theme JavaScript -->
     <script src="js/grayscale.js"></script>
-    <!--<script src="js/ui-bootstrap-tpls-2.0.1.js"></script>-->
     <script src="js/module.js"></script>
     <script src="js/factory.js"></script>
     <script src="js/controller.js"></script>
-
-    <script>
-
-        var sampleQuestions = [
-            {
-                question: "This is a sample question 1 from temporary JSON object",
-                options:[ "Option 1", "Option 2", "Option 3", "Option 4"]
-            },
-            {
-                question: "This is a sample question 2 from temporary JSON object",
-                options:[ "Option 1", "Option 2", "Option 3", "Option 4"]
-            },
-            {
-                question: "This is a sample question 3 from temporary JSON object",
-                options:[ "Option 1", "Option 2", "Option 3", "Option 4", "Option 5"]
-            },
-            {
-                question: "This is a sample question 4 from temporary JSON object",
-                options:[ "Option 1", "Option 2", "Option 3", "Option 4", "Option 5"]
-            },
-            {
-                question: "This is a sample question 5 from temporary JSON object",
-                options:[ "Option 1", "Option 2", "Option 3", "Option 4"]
-            }
-        ];
-
-
-
-        /*app.config(function($routeProvider) {
-            $routeProvider
-                    .when("/", {
-                        template : "<h1>Main</h1><p>Click on the links to change this content</p>"
-                    })
-                    .when("/topic.html", {
-                        templateUrl : "topic.html"
-                        //template : "<h1>Tomato</h1><p>Tomatoes contain around 95% water.</p>"
-                    })
-                    .when("/tomato", {
-                        template : "<h1>Tomato</h1><p>Tomatoes contain around 95% water.</p>"
-                    });
-        });*/
-
-    </script>
 
 </body>
 

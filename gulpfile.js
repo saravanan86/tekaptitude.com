@@ -97,7 +97,8 @@ gulp.task( 'angular', function(){
 
     return gulp.src(['node_modules/angular/angular.js', 'node_modules/angular/angular.min.js',
                 'node_modules/angular-route/angular-route.js', 'node_modules/angular-route/angular-route.min.js',
-                'node_modules/angular-animate/angular-animate.js','node_modules/angular-animate/angular-animate.min.js'])
+                'node_modules/angular-animate/angular-animate.js','node_modules/angular-animate/angular-animate.min.js',
+                'node_modules/angular-cookies/angular-cookies.js','node_modules/angular-cookies/angular-cookies.min.js'])
             .pipe(gulp.dest(DEV_FOLDER+'angular'));
 
 } );
