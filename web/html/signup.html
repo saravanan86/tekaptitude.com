@@ -13,7 +13,7 @@
     </div>
     <div class="modal-body topicBgColor">
         <div ng-repeat="alert in alerts" uib-alert class="alert-style" close="closeAlert()">{{alert.msg}}</div>
-        <form ng-show="!hasSignedIn">
+        <form>
             <div class="row">
                 <div class="col-xs-2 col-sm-2 col-md-2">
                 </div>
@@ -118,20 +118,5 @@
                 </div>
             </div>
         </form>
-        <div ng-show="hasSignedIn">
-
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">Congrats {{user.firstName + " " + user.lastName}}!! You have successfully signed in.</div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <button type="button" class="btn btn-test questionNavButton btn-topic-header" aria-label="left Align" ng-click="cancel()">
-                        <span>Ok</span>
-                    </button>
-                </div>
-            </div>
-
-        </div>
     </div>
 </div>

@@ -165,10 +165,11 @@ app.controller( "navController", function( $scope, $rootScope ){
     
 } );
 
-app.controller( "signUpPageController", function( $scope, $uibModalInstance, $http, $rootScope, loginService ){
+app.controller( "signUpPageController", function( $scope, $uibModalInstance, $http, $rootScope, loginService, modalService ){
 
     $scope.alerts = [];
-    $scope.hasSignedIn = false;
+    $scope.isConfirmBox = false;
+    $scope.isAlertBox = true;
 
     $scope.closeAlert=function () {
 
@@ -177,6 +178,13 @@ app.controller( "signUpPageController", function( $scope, $uibModalInstance, $ht
 
     $scope.cancel = function(){
 
+        $uibModalInstance.dismiss();
+
+    };
+
+    $scope.confirmOk = function(){
+
+        modalService.close();
         $uibModalInstance.dismiss();
 
     };
@@ -255,11 +263,11 @@ app.controller( "signUpPageController", function( $scope, $uibModalInstance, $ht
 
                 if( res.data.success > 0 ){
 
-                    //$scope.hasSignedIn = true;
                     console.log('==========SIGN UP====', user);
                     loginService.setUserInfo( user );
                     $rootScope.$emit("logged-in",user);
-                    $uibModalInstance.dismiss();
+                    $scope.confirmMessage = "Congrats "+user.firstName+" "+user.lastName+"! You have successfully signed up. Click 'Ok' button to continue.";
+                    modalService.open($scope, 'html/confirmDialog.html', 'sm', 'confirmWindowClass');
 
                 }else{
 
@@ -324,7 +332,7 @@ app.controller( "loginController", function( $scope, $uibModal, $rootScope, logi
 
 } );
 
-app.controller( "showResultController", function( $scope, $uibModalInstance, $http, $interval, modalService, resultInfo ) {
+app.controller( "showResultController", function( $scope, $uibModalInstance, $http, $interval, resultInfo ) {
 
     var CORRECT_ANSWERS = "info",
         WRONG_ANSWERS = "danger",
