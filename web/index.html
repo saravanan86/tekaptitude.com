@@ -121,7 +121,7 @@
                         <a ng-click="openLogin()" class="btn btn-default btn-lg"> <span class="network-name">Login</span></a>
                     </li>
                     <li>
-                        <a href="#" class="btn btn-default btn-lg"> <span class="network-name">Sign up</span></a>
+                        <a ng-click="openSignUp()" class="btn btn-default btn-lg"> <span class="network-name">Sign up</span></a>
                     </li>
                 </ul>
             </div>
@@ -130,7 +130,7 @@
             <div class="col-lg-8 col-lg-offset-2">
                 <h2 class="text-lowercase">My Account</h2>
                 <ul class="myAccountList">
-                    <li>{{userInfo.firstname + " " +userInfo.lastname}}</li>
+                    <li>{{(userInfo.firstname || userInfo.firstName) + " " + (userInfo.lastname || userInfo.lastName)}}</li>
                     <li>{{userInfo.email }}</li>
                 </ul><br/>
                 <ul class="list-inline banner-social-buttons">

@@ -1,0 +1,137 @@
+<div class="topic-page">
+    <div class="modal-header topicBgColor test-header container-fluid">
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-10 test-header-left">
+                <h2 class="modal-title text-lowercase">Sign up</h2>
+            </div>
+            <div class="col-xs-2 col-sm-2 col-md-2 test-header-right padding">
+                <button type="button" class="btn btn-test" aria-label="Left Align" ng-click="cancel()">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body topicBgColor">
+        <div ng-repeat="alert in alerts" uib-alert class="alert-style" close="closeAlert()">{{alert.msg}}</div>
+        <form ng-show="!hasSignedIn">
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 signUpLabel">
+                    <label>Name</label>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8">
+                    <div>
+                        <input class="signUpText" type="text"
+                           placeholder="First name" ng-model="user.firstName"/>
+
+                        <input class="signUpText" type="text"
+                           placeholder="Last name" ng-model="user.lastName"/>
+                    </div>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 signUpLabel">
+                    <label class="notRequired">Date of birth</label>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8">
+                    <input class="signUpText" type="text"
+                           placeholder="mm/dd/yyyy" ng-model="user.dob"/>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 signUpLabel">
+                    <label>Email</label>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8">
+                    <div>
+                        <input class="signUpText" type="text"
+                               placeholder="Email" ng-model="user.email"/>
+
+                        <input class="signUpText" type="text"
+                               placeholder="Confirm email" ng-model="user.confirmEmail"/>
+                    </div>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 signUpLabel">
+                    <label>Password</label>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8">
+                    <div>
+                        <input class="signUpText" type="password"
+                               placeholder="Password" ng-model="user.password"/>
+
+                        <input class="signUpText" type="password"
+                               placeholder="Confirm password" ng-model="user.confirmPassword"/>
+                    </div>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+            </div><br/><br/>
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 loginLabel">
+                    <button type="button" class="btn btn-test questionNavButton btn-topic-header" aria-label="Right Align" ng-click="submitPage( user )">
+                        <span>Submit</span>
+                    </button>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 loginInput">
+                    <button type="button" class="btn btn-test questionNavButton btn-topic-header" aria-label="left Align" ng-click="cancel()">
+                        <span>Cancel</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div ng-show="hasSignedIn">
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">Congrats {{user.firstName + " " + user.lastName}}!! You have successfully signed in.</div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <button type="button" class="btn btn-test questionNavButton btn-topic-header" aria-label="left Align" ng-click="cancel()">
+                        <span>Ok</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

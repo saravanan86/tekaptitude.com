@@ -466,7 +466,7 @@ body {
   /*margin: 15px;*/
   white-space: pre-line;
 }
-.alert-style.ng-enter,
+/*.alert-style.ng-enter,
 .alert-style.ng-leave {
   -webkit-transition: 0.5s linear all;
   transition: 0.5s linear all;
@@ -480,7 +480,7 @@ body {
 .alert-style.ng-leave,
 .alert-style.ng-enter.ng-enter-active {
   opacity: 1;
-}
+}*/
 .alert{
   padding-top: 0px;
   padding-bottom: 0px;
@@ -615,6 +615,19 @@ h4.panel-title{
   text-align: center;
   text-transform: none;
 }
+.signUpLabel{
+  text-align: left;
+  padding-right:5px;
+  padding-top: 15px;
+  font-size: large;
+  font-weight: bold;
+}
+.signupNameColumn{
+  display: inline-block;
+}
+.signUpText{
+  width: 49%;
+}
 .loginLabel{
   text-align: right;
   padding-right:5px;
@@ -622,14 +635,26 @@ h4.panel-title{
   font-size: large;
   font-weight: bold;
 }
-.loginLabel label:after {
+.signUpLabel label:after, .loginLabel label:after {
   color: #e32;
   content: ' *';
   display:inline;
 }
+.signUpLabel .notRequired:after{
+  color: transparent;
+  content: ' *';
+  display:inline;
+}
+.signUpMissedField{
+  border:1px solid red;
+}
 @media only screen and (max-device-width: 480px) {
   .loginLabelPhone{
     display: none;
+  }
+  .signUpText{
+    width: 100%;
+    margin: 3px;
   }
 }
 .loginInput{

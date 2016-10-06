@@ -91,8 +91,9 @@ app.controller( "loginPageController", function( $scope, $uibModalInstance, $htt
 
     $scope.submitPage = function( loginForm ){
 
-        var email = ( loginForm ? loginForm.email : "" ),
-            password = ( loginForm ? loginForm.password : "" ),
+        $scope.alerts = [];
+        var email = ( loginForm && loginForm.email ? loginForm.email : "" ),
+            password = ( loginForm && loginForm.password ? loginForm.password : "" ),
             errMsg = "";
 
         if( email === "" ){
@@ -162,7 +163,125 @@ app.controller( "navController", function( $scope, $rootScope ){
         
     });
     
-} )
+} );
+
+app.controller( "signUpPageController", function( $scope, $uibModalInstance, $http, $rootScope, loginService ){
+
+    $scope.alerts = [];
+    $scope.hasSignedIn = false;
+
+    $scope.closeAlert=function () {
+
+        $scope.alerts = [];
+    };
+
+    $scope.cancel = function(){
+
+        $uibModalInstance.dismiss();
+
+    };
+
+    $scope.submitPage = function( user ){
+
+        console.log('===============USER SIGN UP=====',user);
+        var errMsg = "",
+            user = user || {};
+        $scope.user = user;
+
+        if( !user.firstName || user.firstName.replace(/[\s]/g,'') === "" ){
+
+            errMsg += "Please enter a First name.\n";
+            setMissedField( "user.firstName" );
+
+        }
+        if( !user.lastName || user.lastName.replace(/[\s]/g,'') === "" ){
+
+            errMsg += "Please enter a Last name.\n";
+            setMissedField( "user.lastName" );
+
+        }
+        if( !user.email || user.email.replace(/[\s]/g,'') === "" ){
+
+            errMsg += "Please enter an Email.\n";
+            setMissedField( "user.email" );
+
+        }else if( !user.email.match(/[^\s]*[a-zA-Z0-9]@[^\s]*[a-zA-Z0-9]\.[a-zA-Z0-9][^\s]*/) ){
+
+            errMsg += "Please enter a valid Email."
+            setMissedField( "user.email" );
+
+        }
+        if( !user.confirmEmail || user.confirmEmail.replace(/[\s]/g,'') === "" ){
+
+            errMsg += "Please enter confirmation Email.\n";
+            setMissedField( "user.confirmEmail" );
+
+        }else if( user.email != user.confirmEmail ){
+
+            errMsg += "Email entered is not matching.\n";
+            setMissedField( "user.confirmEmail" );
+
+        }
+        if( !user.password || user.password === "" ){
+
+            errMsg += "Please enter a password.\n"
+            setMissedField( "user.password" );
+
+        }else if( user.password.length < 8 || user.password.length > 16 ){
+
+            errMsg += "Password should be of minimum 8 character and maximum 16 character in length.\n"
+            setMissedField( "user.password" );
+
+        }
+        if( !user.confirmPassword || user.confirmPassword.replace(/[\s]/g,'') === "" ){
+
+            errMsg += "Please enter confirmation password.\n";
+            setMissedField( "user.confirmPassword" );
+
+        }else if( user.password != user.confirmPassword ){
+
+            errMsg += "Password entered is not matching.\n";
+            setMissedField( "user.confirmPassword" );
+
+        }
+
+        if( errMsg != "" ){
+
+            $scope.alerts = [{"msg":errMsg}];
+
+        }else {
+
+            $http.post( hostUrl+'/users/adduser', user ).then( function( res ) {
+
+                if( res.data.success > 0 ){
+
+                    //$scope.hasSignedIn = true;
+                    console.log('==========SIGN UP====', user);
+                    loginService.setUserInfo( user );
+                    $rootScope.$emit("logged-in",user);
+                    $uibModalInstance.dismiss();
+
+                }else{
+
+                    $scope.alerts = [{"msg":"Email id already exists. Please provide new email id."}];
+                    setMissedField( "user.email" );
+
+                }
+
+            });
+
+        }
+
+    };
+
+    function setMissedField( elemModelName ){
+
+        var element = angular.element('[ng-model="'+elemModelName+'"]');
+        element[0].className += " signUpMissedField";
+
+    }
+
+});
 
 app.controller( "loginController", function( $scope, $uibModal, $rootScope, loginService ){
 
@@ -175,6 +294,18 @@ app.controller( "loginController", function( $scope, $uibModal, $rootScope, logi
             templateUrl: 'html/login.html',
             controller: 'loginPageController',
             size: 'sm',
+            backdrop: false
+
+        });
+
+    };
+    
+    $scope.openSignUp = function(){
+
+        var modalInstance = $uibModal.open( {
+
+            templateUrl: 'html/signup.html',
+            controller: 'signUpPageController',
             backdrop: false
 
         });
