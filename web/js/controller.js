@@ -266,7 +266,7 @@ app.controller( "signUpPageController", function( $scope, $uibModalInstance, $ht
                     console.log('==========SIGN UP====', user);
                     loginService.setUserInfo( user );
                     $rootScope.$emit("logged-in",user);
-                    $scope.confirmMessage = "Congrats "+user.firstName+" "+user.lastName+"! You have successfully signed up. Click 'Ok' button to continue.";
+                    $scope.confirmMessage = "Congrats "+user.firstName+" "+user.lastName+"! You have successfully signed up. Click 'Ok' to continue.";
                     modalService.open($scope, 'html/confirmDialog.html', 'sm', 'confirmWindowClass');
 
                 }else{
