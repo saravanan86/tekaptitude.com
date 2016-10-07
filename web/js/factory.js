@@ -24,30 +24,52 @@ app.factory( 'modalService', [ '$uibModal', function ($uibModal) {
     }
 ]);
 
-app.factory( 'loginService', [ '$cookies', function($cookies){
+app.factory( 'loginService', function(){
 
     var self = this,
         userInfo = {};
 
+    function getUserDetails(){
+
+        console.log('==========SESSION GETITEM: ',sessionStorage.getItem( "userInfo" ));
+        var details = sessionStorage.getItem( "userInfo" ); //$cookieStore.getObject( "userInfo" );
+        details = details || "{}";
+
+        return JSON.parse( details );
+
+    }
+
     self.getUserInfo = function(){
 
-        return userInfo;
+        return getUserDetails();
 
     };
 
     self.setUserInfo = function( info ){
 
+        console.log('==========SESSION SETITEM: ',info);
         userInfo = info;
+        sessionStorage.setItem( "userInfo", JSON.stringify( userInfo ) ); //$cookieStore.putObject("userInfo",userInfo);
+
 
     };
 
 
     self.isLoggedIn = function(){
 
-        return (userInfo.email != 'undefined');
+        var info = getUserDetails();
+        console.log('================LOGGED IN USER INFO======',info);
+
+        return ( info && typeof info.email != 'undefined');
 
     };
 
+    self.clearUserInfo = function(){
+
+        sessionStorage.removeItem( "userInfo" );
+
+    }
+
     return self;
 
-}] );
+} );

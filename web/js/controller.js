@@ -154,15 +154,19 @@ app.controller( "loginPageController", function( $scope, $uibModalInstance, $htt
 
 } );
 
-app.controller( "navController", function( $scope, $rootScope ){
+app.controller( "navController", function( $scope, $rootScope, loginService ){
 
-    $scope.isLoggedIn = false;
+    $scope.isLoggedIn = loginService.isLoggedIn();
     $rootScope.$on("logged-in",function( event, userInfo ){
         
         $scope.isLoggedIn = true;
         
     });
-    
+    $rootScope.$on("logged-out",function( event, userInfo ){
+
+        $scope.isLoggedIn = false;
+
+    });
 } );
 
 app.controller( "signUpPageController", function( $scope, $uibModalInstance, $http, $rootScope, loginService, modalService ){
@@ -291,10 +295,12 @@ app.controller( "signUpPageController", function( $scope, $uibModalInstance, $ht
 
 });
 
-app.controller( "loginController", function( $scope, $uibModal, $rootScope, loginService ){
+app.controller( "loginController", function( $scope, $uibModal, $rootScope, loginService, modalService ){
 
-    $scope.isLoggedIn = false;
-    $scope.userInfo = {};
+    $scope.userInfo = loginService.getUserInfo();
+    $scope.isLoggedIn = loginService.isLoggedIn();
+    $scope.isConfirmBox = true;
+    $scope.isAlertBox = false;
     $scope.openLogin = function(){
 
         var modalInstance = $uibModal.open( {
@@ -317,6 +323,29 @@ app.controller( "loginController", function( $scope, $uibModal, $rootScope, logi
             backdrop: false
 
         });
+
+    };
+
+    $scope.confirmClose = function(){
+
+        modalService.close();
+
+    };
+
+    $scope.confirmOk = function(){
+
+        modalService.close();
+        loginService.clearUserInfo();
+        $rootScope.$emit( "logged-out" );
+        $scope.isLoggedIn = false;
+        $scope.userInfo = {};
+
+    };
+    
+    $scope.signOut = function(){
+
+        $scope.confirmMessage = $scope.userInfo.firstname+" "+$scope.userInfo.lastname+", Are you sure you want to sign out?";
+        modalService.open($scope, 'html/confirmDialog.html', 'sm', 'confirmWindowClass');
 
     };
 
