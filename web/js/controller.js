@@ -1,30 +1,57 @@
 /**
  * Created by kathires on 8/8/16.
  */
-var topicsDisplayLimit = 10,
+var topicsDisplayLimit = 8,
     hostUrl = location.host.match(/(www.)?tekaptitude\.com/) ?  'https://tekaptitude.herokuapp.com' : 'http://localhost:3000',
     questions = null,
     MAX_LIMIT = 5,
     PASS_PERCENT=70,
     SUCCESS_MSG="Success. You scored %d%",
     FAIL_MSG="Fail. You scored %d%",
-    TOTAL_TIME=1800;
+    TOTAL_TIME=1800,
+    requiredFields = [];
 
-function getCookieValue( name ){
+function isValidDate( dateString )
+{
+    // First check for the pattern
+    if(!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
+        return false;
 
-    var cookieArr = document.cookie.split(';');
-    for( var i = 0, len = cookieArr.length; i < len; i++ ){
+    // Parse the date parts to integers
+    var parts = dateString.split("/"),
+        day = parseInt(parts[1], 10),
+        month = parseInt(parts[0], 10),
+        year = parseInt(parts[2], 10),
+        monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
-        cookieArr[i] = cookieArr[i].replace(/^\s*/,'');
-        if( cookieArr[i].split('=')[0] === name ){
+    // Check the ranges of month and year
+    if(year < 1000 || year > 3000 || month == 0 || month > 12)
+        return false;
 
-            return cookieArr[i].split('=')[1];
+    // Adjust for leap years
+    if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+        monthLength[1] = 29;
 
-        }
+    // Check the range of the day
+    return day > 0 && day <= monthLength[month - 1];
+};
+
+function setMissedField( elemModelName ){
+
+    var element = angular.element('[ng-model="'+elemModelName+'"]');
+    element[0].className += " signUpMissedField";
+    requiredFields.push(element[0]);
+    console.log('======setMissedField====',requiredFields);
+}
+
+function resetMissedField(){
+
+    for( var i = 0, len = requiredFields.length; i < len; i++ ){
+        console.log('======elements====',requiredFields[i],requiredFields[i].className,requiredFields[i].className.replace(/ signUpMissedField/,""));
+        requiredFields[i].className = requiredFields[i].className.replace(/ signUpMissedField/,"");
 
     }
-    return null;
-
+    requiredFields = [];
 }
 
 app.controller( "topicsController", function( $scope, $uibModal, $http, $location ){
@@ -200,6 +227,8 @@ app.controller( "signUpPageController", function( $scope, $uibModalInstance, $ht
             user = user || {};
         $scope.user = user;
 
+        resetMissedField();
+
         if( !user.firstName || user.firstName.replace(/[\s]/g,'') === "" ){
 
             errMsg += "Please enter a First name.\n";
@@ -210,6 +239,12 @@ app.controller( "signUpPageController", function( $scope, $uibModalInstance, $ht
 
             errMsg += "Please enter a Last name.\n";
             setMissedField( "user.lastName" );
+
+        }
+        if( !user.dob || !isValidDate(user.dob) ){
+
+            errMsg += "Please enter date in format mm/dd/yyyy format.\n";
+            setMissedField( "user.dob" );
 
         }
         if( !user.email || user.email.replace(/[\s]/g,'') === "" ){
@@ -285,13 +320,6 @@ app.controller( "signUpPageController", function( $scope, $uibModalInstance, $ht
         }
 
     };
-
-    function setMissedField( elemModelName ){
-
-        var element = angular.element('[ng-model="'+elemModelName+'"]');
-        element[0].className += " signUpMissedField";
-
-    }
 
 });
 

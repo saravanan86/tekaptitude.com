@@ -231,7 +231,21 @@ a:focus {
   }
 }
 .content-section {
-  padding-top: 125px;
+  padding-top: 90px;
+}
+@media screen and (orientation : landscape){
+
+  .content-section {
+    padding-top: 55px;
+  }
+
+}
+@media screen and (device-aspect-ratio: 40/71) {
+
+  .content-section {
+    padding-top: 50px;
+  }
+
 }
 .download-section {
   width: 100%;
@@ -465,6 +479,7 @@ body {
   border: 1px solid darkred;
   /*margin: 15px;*/
   white-space: pre-line;
+  margin-bottom: 0px;
 }
 /*.alert-style.ng-enter,
 .alert-style.ng-leave {
