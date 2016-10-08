@@ -28,6 +28,7 @@ h6 {
 }
 .zeroMargin{
   margin: 0px;
+  margin-bottom: 10px;
 }
 p {
   margin: 0 0 25px;
@@ -231,21 +232,7 @@ a:focus {
   }
 }
 .content-section {
-  padding-top: 90px;
-}
-@media screen and (orientation : landscape){
-
-  .content-section {
-    padding-top: 55px;
-  }
-
-}
-@media screen and (device-aspect-ratio: 40/71) {
-
-  .content-section {
-    padding-top: 50px;
-  }
-
+  padding-top: 120px;
 }
 .download-section {
   width: 100%;
@@ -347,18 +334,9 @@ body {
   webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
 }
 
-.topicQuestion{
-  list-style: none;
-  padding: 5px;
-}
 
-.topic-page{
-  background-color:lightgray;
-  height:100%;
-}
-.topicBody{
-  height:70vh;
-}
+
+/*MODAL WINDOW CSS*/
 .modal-dialog {
   width: 80%;
   height: 100%;
@@ -381,11 +359,13 @@ body {
   top:10%;
   background-color:lightgray;background-color:lightgray;
 }
-
 .modal-body {
   max-height: calc(100vh - 210px);
   overflow-y: auto;
 }
+
+
+/*BUTTON CSS PROPERTIES*/
 .btn-topics {
   border: 1px solid #ffffff;
   color: #ffffff;
@@ -412,43 +392,6 @@ body {
   color: black;
   background-color: #999999;
 }
-.test-header{
-  padding: 5px;
-}
-.test-header-left{
-  padding-top: 5px;
-  float: left;
-  /*width:30%;*/
-}
-.test-header-right{
-  text-align: right;
-  float: right;
-  /*width:10%;
-  padding-top: 10px;*/
-}
-.test-header-right.padding{
-  padding-top:10px;
-}
-.test-header-center{
-  text-align: center;
-  padding-top: 5px;
-  /*width:60%;*/
-}
-.test-footer-left{
-  padding-top: 5px;
-  text-align: left;
-  float: left;
-  width:50%;
-}
-.test-footer-right{
-  padding-top: 5px;
-  text-align: right;
-  float: right;
-  width:50%;
-}
-.questionNavButton{
-  text-transform: capitalize;
-}
 .btn-test {
   border: 0px;
   color: #000000;
@@ -473,39 +416,29 @@ body {
   color: black;
   background-color: #999999;
 }
-.alert-style{
-  color:black;
-  background-color: #999999;
-  border: 1px solid darkred;
-  /*margin: 15px;*/
-  white-space: pre-line;
-  margin-bottom: 0px;
-}
-/*.alert-style.ng-enter,
-.alert-style.ng-leave {
-  -webkit-transition: 0.5s linear all;
-  transition: 0.5s linear all;
+.btn-group-vertical{
+  padding-top: 10px;
 }
 
-.alert-style.ng-enter,
-.alert-style.ng-leave.ng-leave-active {
-  opacity: 1;
-}
 
-.alert-style.ng-leave,
-.alert-style.ng-enter.ng-enter-active {
-  opacity: 1;
-}*/
-.alert{
-  padding-top: 0px;
-  padding-bottom: 0px;
+/*CSS FOR TEST PAGE*/
+.topicQuestion{
+  list-style: none;
+  padding: 5px;
 }
-/*.pagination-sm>.disabled>>a{
-  background-color: transparent;
+.topic-page{
+  background-color:lightgray;
+  height:100%;
 }
-.pagination-sm>li>a{
-  background-color: transparent;
-}*/
+.topicBody{
+  height:70vh;
+}
+.topicInstructions{
+  padding-top: 10px;
+}
+.questionNavButton{
+  text-transform: capitalize;
+}
 .questionNavContainer{
   width: 100%;
   text-align: left;
@@ -515,9 +448,6 @@ body {
   margin: 2px auto;
   line-height: 1.4;
   padding-left: 0;
-  /*display:table;
-  position:relative;
-  left:50%;*/
 }
 .questionFinish{
   text-align:right;
@@ -564,6 +494,57 @@ body {
   color: #999999;
   /*text-decoration: none;*/
 }
+
+
+/*CSS FOR DIFFICULTY SELECTION PAGE*/
+.test-header{
+  padding: 5px;
+}
+.test-header-left{
+  padding-top: 5px;
+  float: left;
+  /*width:30%;*/
+}
+.test-header-right{
+  text-align: right;
+  float: right;
+  /*width:10%;
+  padding-top: 10px;*/
+}
+.test-header-right.padding{
+  padding-top:10px;
+}
+.test-header-center{
+  text-align: center;
+  padding-top: 5px;
+  /*width:60%;*/
+}
+.test-footer-left{
+  padding-top: 5px;
+  text-align: left;
+  float: left;
+  width:50%;
+}
+.test-footer-right{
+  padding-top: 5px;
+  text-align: right;
+  float: right;
+  width:50%;
+}
+
+/*CSS FOR ALERTs*/
+.alert-style{
+  color:black;
+  background-color: #999999;
+  border: 1px solid darkred;
+  white-space: pre-line;
+  margin-bottom: 0px;
+}
+.alert{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
 .confirmDialog{
 
   top:35%;
@@ -587,6 +568,8 @@ body {
 .confirmDialogButton{
   text-align: center;
 }
+
+/*CSS FOR RESULT PAGE*/
 .resultSummary{
   list-style: none;
   font-size: large;
@@ -630,6 +613,8 @@ h4.panel-title{
   text-align: center;
   text-transform: none;
 }
+
+/* CSS FOR SIGNUP PAGE*/
 .signUpLabel{
   text-align: left;
   padding-right:5px;
@@ -663,15 +648,6 @@ h4.panel-title{
 .signUpMissedField{
   border:1px solid red;
 }
-@media only screen and (max-device-width: 480px) {
-  .loginLabelPhone{
-    display: none;
-  }
-  .signUpText{
-    width: 100%;
-    margin: 3px;
-  }
-}
 .loginInput{
   text-align: left;
   padding-left: 5px;
@@ -684,3 +660,118 @@ h4.panel-title{
   list-style: none;
   font-size: larger;
 }
+
+
+
+/*Mobile Phone CSS*/
+/*@media only screen and (min-device-width : 480px) {
+  .loginLabelPhone{
+    display: none;
+  }
+  .signUpText{
+    width: 100%;
+    margin: 3px;
+  }
+  .modal-title{
+    font-size: 20px;
+  }
+  .row{
+    margin-right: -5px;
+    margin-left: -5px;
+  }
+
+}*/
+
+/* Smartphones (landscape) ----------- */
+@media only screen and (min-device-width: 480px)
+and (max-device-width: 640px)
+and (orientation: landscape){
+
+  .modal-title{
+    font-size: 20px;
+  }
+  .test-header-right.padding{
+    padding-top: 5px;
+    padding-left: 0px;
+  }
+  .modal-body{
+    font-size: 12px;
+    max-height: calc(100vh - 100px);
+  }
+  h4{
+    font-size: 14px;
+  }
+  .btn{
+    font-size: 10px;
+    padding: 6px;
+  }
+  .btn-circle{
+    font-size:40px;
+  }
+  .btn-topics-selections{
+    margin: 5px;
+  }
+  .btn-group-vertical{
+    padding-top: 5px;
+    display: inline-flex;
+  }
+
+}
+@media only screen and (min-width : 320px) and  (max-width : 500px){
+
+  .modal-title{
+    font-size: 20px;
+  }
+  .test-header-right.padding{
+    padding-top: 5px;
+    padding-left: 0px;
+  }
+  .modal-body{
+    font-size: 12px;
+    max-height: calc(100vh - 100px);
+  }
+  h4{
+    font-size: 14px;
+  }
+  .btn{
+    font-size: 10px;
+    padding: 6px;
+  }
+  .btn-circle{
+    font-size:40px;
+  }
+  .btn-topics-selections{
+    margin: 5px;
+  }
+  .btn-group-vertical{
+    padding-top: 5px;
+    display: inline-flex;
+  }
+}
+
+@media screen and (device-aspect-ratio: 40/71) {
+
+  .content-section {
+    padding-top: 50px;
+  }
+  .btn{
+    font-size: 10px;
+  }
+  .btn-circle{
+    font-size:40px;
+  }
+}
+/*CSS for iPhone 5*/
+/*@media screen and (device-aspect-ratio: 40/71) {
+
+  .content-section {
+    padding-top: 50px;
+  }
+  .test-header-right.padding{
+    padding-left: 0px;
+  }
+  .test-header-left{
+    padding-top: 15px;
+  }
+
+}*/

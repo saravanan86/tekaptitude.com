@@ -18,9 +18,8 @@
         choice questions based on core concepts where you will be given multiple options. You will select the best suitable answer
         for the question and then proceed to the next question without wasting given time. You will get your online test score
         after completing the test.</div>
-        <br/>
         <!--<b class="zeroMargin text-lowercase">Test instructions:</b><br/>-->
-        <ul>
+        <ul class="topicInstructions">
             <li>Total number of questions: <b>20</b></li>
             <li>Time allotedL <b>30 mins</b></li>
             <li>Each question carries 1 mark, no negative marks</li>
@@ -29,14 +28,14 @@
             <li> Each correct answer carries 2 marks and wrong answers will deduct 1 mark. </li>
             <li> You can skip a question and revisit it later.</li>-->
         </ul>
-        <br/>
-        <h4 class="zeroMargin text-lowercase">Select level of difficulty:</h4><br/>
+        <h4 class="zeroMargin text-lowercase">Select level of difficulty:</h4>
         <div>To begin the test select the difficulty level from below options.</div>
         <div ng-repeat="alert in alerts" uib-alert class="alert-style" close="closeAlert($index)" dismiss-on-timeout="5000">{{alert.msg}}</div>
         <div class="btn-group-vertical" role="group" aria-label="...">
-            <button type="button" class="btn btn-topics-selections btn-block" ng-click="setDifficulty( 0 )">Beginners</button>
-            <button type="button" class="btn btn-topics-selections btn-default" ng-click="setDifficulty( 1 )">Intermediate</button>
-            <button type="button" class="btn btn-topics-selections btn-default" ng-click="setDifficulty( 2 )">Advanced</button>
+            <button type="button" class="btn btn-topics-selections btn-default" style="display: none" ng-click="setDifficulty( 0 )">Beginners</button>
+            <button type="button" class="btn btn-topics-selections btn-default" ng-click="setDifficulty( 0 )">Easy</button>
+            <button type="button" class="btn btn-topics-selections btn-default" ng-click="setDifficulty( 1 )">Hard</button>
+            <button type="button" class="btn btn-topics-selections btn-default" ng-click="setDifficulty( 2 )">Tough</button>
         </div>
     </div>
 </div>
