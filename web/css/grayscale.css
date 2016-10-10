@@ -719,7 +719,8 @@ h4.panel-title{
 }*/
 
 /* Smartphones (landscape) ----------- */
-@media only screen and (min-device-width: 480px) and (max-device-width: 750px) and (orientation: landscape){
+/*@media only screen and (min-device-width: 480px) and (max-device-width: 750px) and (orientation: landscape){*/
+@media only screen and (min-width : 321px) {
 
   .modal-title{
     font-size: 20px;
@@ -779,7 +780,8 @@ h4.panel-title{
   }*/
 
 }
-@media only screen and (min-width : 320px) and  (max-width : 500px){
+/*@media only screen and (min-width : 320px) and  (max-width : 500px){*/
+@media only screen and (max-width : 320px) {
 
   .modal-title{
     font-size: 20px;
