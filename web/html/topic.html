@@ -1,22 +1,29 @@
 <div class="topic-page">
     <div class="modal-header topicBgColor test-header container-fluid">
         <div class="row">
-            <div class="col-xs-3 col-sm-3 col-md-3 test-header-left"><!--test-header-left-->
-                <b>Time left: </b> {{timeLeft}}
+            <div class="col-xs-10 col-sm-10 col-md-10 test-header-left">
+                <h2 class="modal-title text-lowercase">{{topicName}} Test</h2>
             </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 test-header-center"><!--test-header-center-->
-                <b>Question</b> <i>{{currentQuestion}}</i> <b>of</b> <i>{{totalQuestions}}</i>
-            </div>
-            <div class="col-xs-3 col-sm-3 col-md-3 test-header-right"><!--test-header-right-->
+
+            <div class="col-xs-2 col-sm-2 col-md-2 test-header-right padding">
                 <button type="button" class="btn btn-test" aria-label="Left Align" ng-click="cancel()">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                 </button>
             </div>
         </div>
+
     </div>
     <div class="modal-body row topicBgColor topicBody">
+        <!--<div class="row">
+            <div class="col-xs-3 col-sm-3 col-md-3 test-header-left">
+                <b class="timeLeftText">Time left: </b> {{timeLeft}}
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 test-header-center">
+                <b>Question</b> <i>{{currentQuestion}}</i> <b>of</b> <i>{{totalQuestions}}</i>
+            </div>
+        </div>-->
         <div class="col-lg-12">
-        <h2 class="modal-title text-lowercase ">{{topicName}} Test</h2><br/>
+        <!--<h2 class="modal-title text-lowercase ">{{topicName}} Test</h2><br/>-->
         <div>
         {{currentQuestion}}. {{question}}
         </div><br/>
@@ -30,14 +37,43 @@
     </div>
 
     <div class="modal-footer topicBgColor questionNavContainer container-fluid">
-        <div class="row">
+        <!--<div class="topicTimeLeft"></div>-->
+        <div class="row topicFooterMobile">
 
-            <ul uib-pagination total-items="totalQuestions*10" ng-model="currentQuestion" max-size="0" class="col-xs-6 col-sm-6 col-md-6 questionNav" force-ellipses="false" boundary-links="true" ng-change="questionChanged()" previous-text="&lsaquo; Prev" next-text="Next &rsaquo;" first-text="&laquo;First" last-text="Last&raquo;"></ul>
+            <div class="col-xs-5 col-sm-5 col-md-5 ">
+                <ul uib-pagination total-items="totalQuestions*10" ng-model="currentQuestion" max-size="0" class="questionNav" force-ellipses="false" boundary-links="true" ng-change="questionChanged()" previous-text="&lsaquo; Prev" next-text="Next &rsaquo;" first-text="&laquo;First" last-text="Last&raquo;"></ul>
+            </div>
+            <div class="col-xs-7 col-sm-7 col-md-7 topicTimeLeftTable">
+                <div class="topicTimeLeftCell">
+                    {{timeLeft}}
+                </div>
+                <div class="topicFinishCell">
+                    <button type="button" class="btn btn-test btn-topic-header" aria-label="Left Align" ng-click="finishTest()">
+                        <span>Finish</span>
+                    </button>
+                </div>
 
-            <div class="col-xs-6 col-sm-6 col-md-6 questionFinish">
-                <button type="button" class="btn btn-test questionNavButton btn-topic-header" aria-label="Left Align" ng-click="finishTest()">
-                    <span>Finish</span>
-                </button>
+            </div>
+
+        </div>
+        <div class="row topicFooterDesktop">
+
+            <div class="col-xs-3 col-sm-3 col-md-3 ">
+                <ul uib-pagination total-items="totalQuestions*10" ng-model="currentQuestion" max-size="0" class="questionNav" force-ellipses="false" boundary-links="true" ng-change="questionChanged()" previous-text="&lsaquo; Prev" next-text="Next &rsaquo;" first-text="&laquo;First" last-text="Last&raquo;"></ul>
+            </div>
+            <div class="col-xs-9 col-sm-9 col-md-9 topicTimeLeftTable">
+                <div class="topicQuestionsLeftCell">
+                    <b>Question</b> <i>{{currentQuestion}}</i> <b>of</b> <i>{{totalQuestions}}</i>
+                </div>
+                <div class="topicTimeLeftCell">
+                    <b>Time left:&nbsp;</b>{{timeLeft}}
+                </div>
+                <div class="topicFinishCell">
+                    <button type="button" class="btn btn-test btn-topic-header" aria-label="Left Align" ng-click="finishTest()">
+                        <span>Finish</span>
+                    </button>
+                </div>
+
             </div>
 
         </div>

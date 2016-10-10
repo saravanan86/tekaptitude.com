@@ -363,7 +363,9 @@ body {
   max-height: calc(100vh - 210px);
   overflow-y: auto;
 }
-
+.modal-footer{
+  padding: 0px;
+}
 
 /*BUTTON CSS PROPERTIES*/
 .btn-topics {
@@ -436,8 +438,35 @@ body {
 .topicInstructions{
   padding-top: 10px;
 }
+.topicTimeLeftTable{
+  display: table;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.topicTimeLeftCell{
+  display: table-cell;
+  text-align: left;
+  vertical-align: middle;
+}
+.topicFinishCell{
+  display: table-cell;
+  text-align: right;
+  padding-right: 10px;
+}
+.topicQuestionsLeftCell{
+  display: table-cell;
+  text-align: left;
+}
+.topicFooterDesktop{
+  display: block;
+}
+.topicFooterMobile{
+  display: none;
+}
 .questionNavButton{
   text-transform: capitalize;
+  margin-top: 5px;
+  margin-right: 10px;
 }
 .questionNavContainer{
   width: 100%;
@@ -448,6 +477,7 @@ body {
   margin: 2px auto;
   line-height: 1.4;
   padding-left: 0;
+  white-space: nowrap;
 }
 .questionFinish{
   text-align:right;
@@ -461,6 +491,9 @@ body {
 .pagination.questionNav > li.pagination-next > a{
   float:right;
   font-weight: bolder;
+  padding: 0px;
+  padding-left: 10px;
+  padding-top:5px;
 }
 .pagination.questionNav > li.pagination-first > a{
   display: none;
@@ -468,6 +501,9 @@ body {
 .pagination.questionNav > li.pagination-prev > a{
   float:left;
   font-weight: bolder;
+  padding:0px;
+  padding-left: 10px;
+  padding-top: 5px;
 }
 .pagination.questionNav > li.pagination-page{
   width:80%;
@@ -683,9 +719,7 @@ h4.panel-title{
 }*/
 
 /* Smartphones (landscape) ----------- */
-@media only screen and (min-device-width: 480px)
-and (max-device-width: 640px)
-and (orientation: landscape){
+@media only screen and (min-device-width: 480px) and (max-device-width: 750px) and (orientation: landscape){
 
   .modal-title{
     font-size: 20px;
@@ -696,7 +730,7 @@ and (orientation: landscape){
   }
   .modal-body{
     font-size: 12px;
-    max-height: calc(100vh - 100px);
+    max-height: calc(100vh - 120px);
   }
   h4{
     font-size: 14px;
@@ -704,6 +738,7 @@ and (orientation: landscape){
   .btn{
     font-size: 10px;
     padding: 6px;
+    font-weight: bold;
   }
   .btn-circle{
     font-size:40px;
@@ -715,6 +750,33 @@ and (orientation: landscape){
     padding-top: 5px;
     display: inline-flex;
   }
+  .questionNavButton{
+    margin-top: 7px;
+  }
+  .topicTimeLeftTable{
+    display: table;
+    padding-bottom: 0px;
+  }
+  .topicFooterDesktop{
+    display: none;
+  }
+  .topicFooterMobile{
+    display: block;
+  }
+  /*.topicTimeLeftTable{
+    display: table;
+    padding-top: 5px;;
+  }
+  .topicTimeLeftCell{
+    display: table-cell;
+    text-align: left;
+    vertical-align: middle;
+  }
+  .topicFinishCell{
+    display: table-cell;
+    text-align: right;
+    padding-right: 10px;
+  }*/
 
 }
 @media only screen and (min-width : 320px) and  (max-width : 500px){
@@ -736,6 +798,7 @@ and (orientation: landscape){
   .btn{
     font-size: 10px;
     padding: 6px;
+    font-weight: bold;
   }
   .btn-circle{
     font-size:40px;
@@ -747,9 +810,39 @@ and (orientation: landscape){
     padding-top: 5px;
     display: inline-flex;
   }
+  .timeLeftText{
+    display: none;
+  }
+  .questionNavButton{
+    margin-top: 7px;
+  }
+  .topicTimeLeftTable{
+    display: table;
+    padding-bottom: 0px;
+  }
+  .topicFooterDesktop{
+    display: none;
+  }
+  .topicFooterMobile{
+    display: block;
+  }
+  /*.topicTimeLeftTable{
+    display: table;
+    padding-top: 5px;
+  }
+  .topicTimeLeftCell{
+    display: table-cell;
+    text-align: left;
+    vertical-align: middle;
+  }
+  .topicFinishCell{
+    display: table-cell;
+    text-align: right;
+    padding-right: 10px;
+  }*/
 }
 
-@media screen and (device-aspect-ratio: 40/71) {
+/*@media screen and (device-aspect-ratio: 40/71) {
 
   .content-section {
     padding-top: 50px;
@@ -760,7 +853,7 @@ and (orientation: landscape){
   .btn-circle{
     font-size:40px;
   }
-}
+}*/
 /*CSS for iPhone 5*/
 /*@media screen and (device-aspect-ratio: 40/71) {
 
