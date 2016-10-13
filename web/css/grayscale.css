@@ -720,7 +720,9 @@ h4.panel-title{
 
 /* Smartphones (landscape) ----------- */
 /*@media only screen and (min-device-width: 480px) and (max-device-width: 750px) and (orientation: landscape){*/
-@media only screen and (min-width : 321px) {
+/*@media only screen and (min-width : 320px) {*/
+/*@media screen and (max-width: 500px) and (orientation: landscape) {*/
+@media (max-width: 750px) {
 
   .modal-title{
     font-size: 20px;
@@ -781,20 +783,21 @@ h4.panel-title{
 
 }
 /*@media only screen and (min-width : 320px) and  (max-width : 500px){*/
-@media only screen and (max-width : 320px) {
+/*@media only screen and (max-width : 320px) {*/
+@media (max-width: 750px) and (orientation: portrait) {
 
-  .modal-title{
+  /*.modal-title{
     font-size: 20px;
   }
   .test-header-right.padding{
     padding-top: 5px;
     padding-left: 0px;
-  }
+  }*/
   .modal-body{
     font-size: 12px;
     max-height: calc(100vh - 100px);
   }
-  h4{
+  /*h4{
     font-size: 14px;
   }
   .btn{
@@ -827,7 +830,7 @@ h4.panel-title{
   }
   .topicFooterMobile{
     display: block;
-  }
+  }*/
   /*.topicTimeLeftTable{
     display: table;
     padding-top: 5px;
