@@ -25,10 +25,10 @@
             <uib-accordion>
             <div uib-accordion-group class="panel-default" is-open="status.open">
                 <uib-accordion-heading>
-                    Click here to see test result details. <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                    <div class="resultPanelText">Click here to see test result details. <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></div>
                 </uib-accordion-heading>
 
-                <ul class="resultSummary">
+                <ul class="resultSummary resultPanelText">
                     <li>Total number of questions: <b>{{result.totalQuestions}}</b><div class="color-swatch brand-primary"></div></li>
                     <li>Questions attented: <b>{{result.totalAnswers}}</b></li>
                     <li>Answered correctly: <b>{{result.correctAnswers}}</b></li>

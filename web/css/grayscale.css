@@ -724,7 +724,7 @@ h4.panel-title{
 /*@media screen and (max-width: 500px) and (orientation: landscape) {*/
 @media (max-width: 750px) {
 
-  .modal-title{
+  h2{
     font-size: 20px;
   }
   .test-header-right.padding{
@@ -765,6 +765,9 @@ h4.panel-title{
   }
   .topicFooterMobile{
     display: block;
+  }
+  .resultPanelText{
+    font-size: 14px;
   }
   /*.topicTimeLeftTable{
     display: table;
