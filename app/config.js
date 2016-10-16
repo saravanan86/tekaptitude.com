@@ -40,7 +40,7 @@ var config = {
             port:   '8000'
         },
         mail:{
-            userName: 'support@tekaptitude.com',
+            user: 'support@tekaptitude.com',
             password: 'knight11',
             server:'smtpout.secureserver.net'
         }
