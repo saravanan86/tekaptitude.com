@@ -4,6 +4,7 @@ var express = require('express'),
     topics = require( './topics' ),
     users = require( './users' ),
     config = require( './config' ),
+    mail = require( './mail' ),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
     app = express();
@@ -44,6 +45,8 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use( express.static( env == 'development' ? 'web' : 'web' ) );
 app.use( '/topics', topics );
 app.use( '/users', users );
+
+mail.setMailSettings( config );
 
 // Monogo DB connection and Server start up
 

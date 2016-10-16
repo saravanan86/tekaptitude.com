@@ -57,8 +57,8 @@ function resetMissedField(){
 app.controller( "topicsController", function( $scope, $uibModal, $http, $location ){
 
     //hostUrl = decodeURIComponent(getCookieValue('hostUrl'));
-    console.log('============hostUrl: ',hostUrl);
-
+    //console.log('============hostUrl: ',hostUrl);
+    $scope.isLoading = true;
 
     $http.get( hostUrl+'/topics/topic' ).then( function( res ) {
         console.log(res.data);
@@ -72,6 +72,7 @@ app.controller( "topicsController", function( $scope, $uibModal, $http, $locatio
             $scope.topics[ topics[topic].topic] = topics[topic].title;
 
         }
+        $scope.isLoading = false;
 
     });
 
@@ -226,6 +227,7 @@ app.controller( "signUpPageController", function( $scope, $uibModalInstance, $ht
         var errMsg = "",
             user = user || {};
         $scope.user = user;
+        $scope.alerts = [];
 
         resetMissedField();
 
@@ -241,7 +243,7 @@ app.controller( "signUpPageController", function( $scope, $uibModalInstance, $ht
             setMissedField( "user.lastName" );
 
         }
-        if( !user.dob || !isValidDate(user.dob) ){
+        if( ( user.dob && user.dob != "") && !isValidDate( user.dob ) ){
 
             errMsg += "Please enter date in format mm/dd/yyyy format.\n";
             setMissedField( "user.dob" );
@@ -372,7 +374,7 @@ app.controller( "loginController", function( $scope, $uibModal, $rootScope, logi
     
     $scope.signOut = function(){
 
-        $scope.confirmMessage = $scope.userInfo.firstname+" "+$scope.userInfo.lastname+", Are you sure you want to sign out?";
+        $scope.confirmMessage = ($scope.userInfo.firstName || $scope.userInfo.firstname)+" "+($scope.userInfo.lastName || $scope.userInfo.lastname)+", Are you sure you want to sign out?";
         modalService.open($scope, 'html/confirmDialog.html', 'sm', 'confirmWindowClass');
 
     };

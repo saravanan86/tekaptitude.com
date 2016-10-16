@@ -34,7 +34,8 @@
     "jquery": "^3.1.0",
     "jquery-easing": "0.0.1",
     "jquery-paginate": "^1.0.0",
-    "mongodb": "^2.2.9"
+    "mongodb": "^2.2.9",
+    "nodemailer": "^2.6.4"
   },
   "scripts": {
     "start": "node app/app",

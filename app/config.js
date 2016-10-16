@@ -16,6 +16,11 @@ var config = {
         server: {
             host: '127.0.0.1',
             port: '3000'
+        },
+        mail:{
+            user: 'support@tekaptitude.com',
+            password: 'knight11',
+            server:'smtpout.secureserver.net'
         }
     },
     production: {
@@ -33,6 +38,11 @@ var config = {
         server: {
             host:   'http://techassesment.herokuapp.com/',
             port:   '8000'
+        },
+        mail:{
+            userName: 'support@tekaptitude.com',
+            password: 'knight11',
+            server:'smtpout.secureserver.net'
         }
     }
 };
