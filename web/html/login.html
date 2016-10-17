@@ -15,30 +15,50 @@
         <div ng-repeat="alert in alerts" uib-alert class="alert-style" close="closeAlert()">{{alert.msg}}</div>
         <form>
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 loginLabel loginLabelPhone">
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 loginLabel loginLabelPhone">
                     <label>Email</label>
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 loginInput">
-                    <input type="text"
-                           placeholder="Email" ng-model="login.email"/>
+                <div class="col-xs-2 col-sm-2 col-md-2">
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 loginLabel loginLabelPhone">
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 loginInput">
+                    <input type="text"
+                           placeholder="Email" ng-model="login.email"/>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 loginLabel loginLabelPhone">
                     <label>Password</label>
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 loginInput">
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 loginInput">
                     <input type="password"
                            placeholder="Password" maxlength="16" ng-model="login.password"/>
                 </div>
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                </div>
             </div><br/>
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 loginLabel">
+                <div class="col-xs-6 col-sm-6 col-md-6 loginSubmit">
                     <button type="button" class="btn btn-test questionNavButton btn-topic-header" aria-label="Right Align" ng-click="submitPage( login );">
                         <span>Submit</span>
                     </button>
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 loginInput">
+                <div class="col-xs-6 col-sm-6 col-md-6 loginCancel">
                     <button type="button" class="btn btn-test questionNavButton btn-topic-header" aria-label="left Align" ng-click="cancel()">
                         <span>Cancel</span>
                     </button>

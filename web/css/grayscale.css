@@ -665,9 +665,8 @@ h4.panel-title{
   width: 49%;
 }
 .loginLabel{
-  text-align: right;
+  text-align: left;
   padding-right:5px;
-  padding-bottom: 10px;
   font-size: large;
   font-weight: bold;
 }
@@ -686,8 +685,17 @@ h4.panel-title{
 }
 .loginInput{
   text-align: left;
-  padding-left: 5px;
   padding-bottom:10px;
+}
+.loginInput input{
+  width:100%;
+}
+.loginSubmit{
+  text-align: right;
+  padding-right: 0px;
+}
+.loginCancel{
+  padding-left: 0px;
 }
 .progress-bar-info{
   background-color: green;
@@ -769,6 +777,13 @@ h4.panel-title{
   .resultPanelText{
     font-size: 14px;
   }
+  .modal-dialog.modal-sm {
+    width:50%;
+    height: 40%;
+    left: 25%;
+    position: absolute;
+    top:25%;
+  }
   /*.topicTimeLeftTable{
     display: table;
     padding-top: 5px;;
@@ -799,6 +814,13 @@ h4.panel-title{
   .modal-body{
     font-size: 12px;
     max-height: calc(100vh - 100px);
+  }
+  .modal-dialog.modal-sm {
+    width:80%;
+    height: 40%;
+    left: 10%;
+    position: absolute;
+    top:25%;
   }
   /*h4{
     font-size: 14px;
