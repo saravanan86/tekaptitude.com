@@ -101,7 +101,7 @@
                     <h2>Tech Topics</h2>
                     <div class="loadingIcon" ng-show="isLoading"><img src="img/spinner.gif" width="40px" height="40px"></div>
                     <div ng-show="!isLoading"><p class="btn btn-topics btn-primary" ng-repeat=" (key,val) in topics " ng-if="$index < topicsDisplayLimit" ng-click="openTopic( val, key );" >{{val}}</p>
-                    <p class="btn btn-topics btn-primary">More...</p></div>
+                    <p class="btn btn-topics btn-primary" ng-click="loadMore();" ng-show="hasMore">More...</p></div>
                 </div>
             </div>
         </div>
@@ -147,8 +147,8 @@
     <section id="about" class="container content-section text-center">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
-                <h2 class="text-lowercase">About TechAptitude</h2>
-                <p>TechAptitude is one place where your technical skills can be evaluated for free. It has multiple skill levels on each topics and helps to track your performance. TechAptitude provides you certificate on completion of each level.</p>
+                <h2 class="text-lowercase">About TekAptitude</h2>
+                <p>TekAptitude is one place where your technical skills can be evaluated for free. It has multiple skill levels on each topics and helps to track your performance. TekAptitude provides you certificate on completion of each level.</p>
                 <p>Feel free to email us to provide some feedback on our site, give us suggestions for improvement, or to just say hello!</p>
                 <p><a href="mailto:saravanan86@gmail.com">feedback@tekaptitude.com</a>
                 <ul class="list-inline banner-social-buttons">
@@ -195,8 +195,8 @@
     <!-- Footer -->
     <footer>
         <div class="container text-center">
-            <p>Copyright &copy; Your Website 2016</p>
-            <p>Terms and Conditions</p>
+            <p>Copyright &copy; TekAptitude.com 2016</p>
+            <p><a href="">Terms and Conditions</a></p>
         </div>
     </footer>
 

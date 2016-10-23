@@ -690,6 +690,18 @@ h4.panel-title{
 .loginInput input{
   width:100%;
 }
+.loginForgot{
+  text-align: right;
+}
+.loginForgot a{
+  color: black;
+  font-weight: bold;
+}
+.loginForgot a:hover{
+  text-decoration: underline;
+  cursor: pointer;
+  cursor: hand;
+}
 .loginSubmit{
   text-align: right;
   padding-right: 0px;

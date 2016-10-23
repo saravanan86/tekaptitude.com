@@ -39,3 +39,28 @@ exports.signupMail = function( to, done ){
     }
 
 };
+
+exports.forgotMail = function( to, done ){
+
+    if( transporter && to ){
+
+        signupMail = mailTemplate;
+        signupMail.to = mailTemplate.to.replace(/%toEmail/,to.email);
+        signupMail.subject = mailTemplate.subject.replace(/%subject/,'Password recovery');
+        signupMail.text = mailTemplate.text.replace(/%message/,'Hi %firstName %lastName, \n\t\t Your password for www.tekaptitude.com is %password.\nYours truly,\nTekaptitude Team'.replace(/%firstName/,to.firstName).replace(/%lastName/,to.lastName).replace(/%password/,to.password));
+
+        transporter.sendMail( signupMail, function( error, info ) {
+
+            if(error){
+
+                done( error, {success:false} );
+                //return console.log(error);
+
+            }
+            console.log('=======DONE 2=======',to, done);
+            done( error, {success:true} );
+        });
+
+    }
+
+};

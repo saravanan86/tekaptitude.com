@@ -59,6 +59,7 @@ app.controller( "topicsController", function( $scope, $uibModal, $http, $locatio
     //hostUrl = decodeURIComponent(getCookieValue('hostUrl'));
     //console.log('============hostUrl: ',hostUrl);
     $scope.isLoading = true;
+    $scope.hasMore = true;
 
     $http.get( hostUrl+'/topics/topic' ).then( function( res ) {
         console.log(res.data);
@@ -75,6 +76,20 @@ app.controller( "topicsController", function( $scope, $uibModal, $http, $locatio
         $scope.isLoading = false;
 
     });
+
+    $scope.loadMore = function(){
+
+        var len = Object.keys( $scope.topics ).length;
+
+        if( len > $scope.topicsDisplayLimit ){
+
+            $scope.topicsDisplayLimit += topicsDisplayLimit;
+
+        }
+
+        $scope.hasMore = (len > $scope.topicsDisplayLimit);
+
+    };
 
 
     $scope.openTopic = function( topicName, topicId ){
@@ -98,9 +113,10 @@ console.log('=========openTopic===',topicName);
 
 } );
 
-app.controller( "loginPageController", function( $scope, $uibModalInstance, $http, $rootScope, loginService ){
+app.controller( "loginPageController", function( $scope, $uibModalInstance, $http, $rootScope, loginService, modalService ){
 
     $scope.alerts = [];
+    $scope.isForgotPassword = false;
 
     //$scope.login = {email:"test"};
     //{"msg":"You have only 30 secs remaining.\nYou have only 30 secs remaining."}
@@ -114,6 +130,69 @@ app.controller( "loginPageController", function( $scope, $uibModalInstance, $htt
     $scope.cancel = function(){
 
         $uibModalInstance.dismiss();
+
+    };
+
+    $scope.forgotPassword = function(loginForm){
+
+        $scope.alerts = [];
+        $scope.isForgotPassword = true;
+        $scope.isConfirmBox = false;
+        $scope.isAlertBox = true;
+
+        $scope.confirmOk = function(){
+
+            modalService.close();
+            $uibModalInstance.dismiss();
+
+        };
+
+        if( !loginForm ){
+            return;
+        }
+
+        var email = ( loginForm && loginForm.email ? loginForm.email : "" ),
+            errMsg = "";
+
+        if( email === "" ){
+
+            errMsg = "Email address is required. Please enter a valid email address.\n";
+            //$scope.alerts = [{"msg":"You have only 30 secs remaining.\nYou have only 30 secs remaining."+loginForm.email}];
+        } else if( !email.match(/[^\s]*[a-zA-Z0-9]@[^\s]*[a-zA-Z0-9]\.[a-zA-Z0-9][^\s]*/) ){
+
+            errMsg = "Please enter a valid email address.\n";
+
+        }
+        if( errMsg != "" ){
+
+            $scope.alerts = [{"msg": errMsg}];
+            return;
+
+        }
+
+        var userInfo = {
+
+            email:email
+
+        };
+
+        $http.post( hostUrl+'/users/forgot', userInfo ).then( function( res ) {
+
+            console.log('=======ANSWER DATA ====', res.data);
+            if( res.data.success == true ){
+
+                //$uibModalInstance.dismiss();
+                $scope.confirmMessage = "Success!! Your password is emailed to '"+userInfo.email+"'. Click 'Ok' to continue.";
+                modalService.open($scope, 'html/confirmDialog.html', 'sm', 'confirmWindowClass');
+                return;
+
+            }else{
+                $scope.alerts = [{"msg": "Email entered is not a valid one. Please provide a valid email address."}];
+                return;
+            }
+
+        });
+
 
     };
 

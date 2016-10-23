@@ -29,6 +29,41 @@ router.post( '/user',function( req, res ){
 
 });
 
+router.post( '/forgot',function( req, res ){
+
+    var email = req.body.email
+        emailRegExp = new RegExp("^"+email+"$","i"),
+        userInfo = null;
+
+    db.get().collection('users').find({"email":emailRegExp}).toArray(function(err, docs) {
+
+        console.log('Answers array====', docs);
+
+        if( docs.length > 0 ){
+
+            userInfo = docs[0];
+
+            mail.forgotMail( {
+                firstName : userInfo.firstname,
+                lastName : userInfo.lastname,
+                email : userInfo.email,
+                password: userInfo.password
+            },function(error, response){} );
+
+            res.json({"success":true});
+
+        } else {
+
+            res.json({"success":false});
+
+        }
+
+    });
+
+    //res.send("DATA FOR POST. topicName:"+req.body.topicName);
+
+});
+
 
 router.post( '/adduser',function( req, res ){
 
