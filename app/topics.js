@@ -11,15 +11,15 @@ router.get('/:topic/:difficulty/:size', function (req, res) {
 
     db.get().collection( 'questionbank' ).find( {'topic':topic}, {'questions.index':1,'_id':0} ).toArray( function( err, docs ){
 
-        //console.log('======RANDOM==',docs);
+        console.log('======RANDOM==',docs);
         randomArr = getRandomQuestionIndex( docs,size );
-        //console.log('====size 1====',size,randomArr);
+        console.log('====size 1====',size,randomArr);
         //db.questionbank.aggregate([{$match:{'index':0}},{$unwind:'$questions'},{$match:{'questions.index':{$in:[45,46]}}}]).pretty()
         //db.questionbank.aggregate([{$match:{'index':0}},{$unwind:'$questions'},{$match:{'questions.index':{$in:[45,46]}}},{$project:{'_id':0,'index':1,'topic':1,'title':1,'level':1,'questions.question':1,'questions.choices':1,'questions.index':1}}])
         //db.get().collection('questionbank').find({'topic':topic,'level':difficulty},{'questions.answer':0}).toArray(function(err, docs) {
         db.get().collection('questionbank').aggregate([{$match:{'topic':topic}},{$unwind:'$questions'},{$match:{'questions.index':{$in:randomArr}}},{$project:{'_id':0,'questions.question':1,'questions.choices':1,'questions.index':1}}]).toArray(function(err, docs) {
 
-            //console.log('Questions array====',docs);
+            console.log('Questions array====',docs);
             res.json(docs);
         });
 
@@ -105,6 +105,7 @@ function getRandomQuestionIndex( questions, size ){
     if( questions.length > 0 ){
 
         len = questions[0].questions.length;
+        size = ( size > len ? len : size );
         for( var i = 0; i < size; i++ ){
             flag = false;
             do {

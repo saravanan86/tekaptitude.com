@@ -2,7 +2,7 @@
     <div class="modal-header topicBgColor test-header container-fluid">
         <div class="row">
             <div class="col-xs-10 col-sm-10 col-md-10 test-header-left">
-                <h2 class="modal-title text-lowercase">{{topicName}} Test Result</h2>
+                <h2 class="modal-title text-lowercase">{{topicName}} Result</h2>
             </div>
 
             <div class="col-xs-2 col-sm-2 col-md-2 test-header-right padding">
@@ -16,7 +16,7 @@
 
         <uib-progress><uib-bar ng-repeat="bar in resultProgress track by $index" value="bar.value" type="{{bar.type}}"><span ng-hide="bar.value < 5">{{bar.value}}%</span></uib-bar></uib-progress>
         <br/>
-        <div><div class="resultLegendContainer"><div class="resultLegend correct" ></div>&nbsp;Correct%</div><div class="resultLegendContainer"><div class="resultLegend wrong" ></div>&nbsp;Wrong%</div><div class="resultLegendContainer"><div class="resultLegend attended" ></div>&nbsp;Unattended%</div></div>
+        <div><div class="resultLegendContainer"><div class="resultLegend correct" ></div>&nbsp;Correct %</div><div class="resultLegendContainer"><div class="resultLegend wrong" ></div>&nbsp;Wrong %</div><div class="resultLegendContainer"><div class="resultLegend attended" ></div>&nbsp;Unattended %</div></div>
         <br/>
         <div ng-show="isResultReady">
 
