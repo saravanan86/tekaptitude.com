@@ -36,35 +36,51 @@
     <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" ng-controller="navController">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
-                    Menu <i class="fa fa-bars"></i>
-                </button>
+
+                <div class="navbar-rightHeader">
+                    <input type="text" ng-model="selected" uib-typeahead="topic as topic.title for topic in topicsList | filter:$viewValue | limitTo:8" placeholder="Topic Search">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                        Menu <i class="fa fa-bars"></i>
+                    </button>
+                </div>
                 <a class="navbar-brand page-scroll text-lowercase" href="#page-top">
                     <i class="fa fa-play-circle"></i> <span class="light">Home</span> <!--Aptitude-->
                 </a>
             </div>
 
+            <!--<div class="navbar-left">
+                <input type="text" ng-model="selected" uib-typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">
+            </div>-->
+
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
-                <ul class="nav navbar-nav">
-                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#topics">Topics</a>
-                    </li>
-                    <li ng-show="!isLoggedIn">
-                        <a class="page-scroll" href="#login">Login/Sign up</a>
-                    </li>
-                    <li ng-show="isLoggedIn">
-                        <a class="page-scroll" href="#login">My Account</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#about">About</a>
-                    </li>
+                <div class="navbar-rightSection">
 
-                </ul>
+                    <input type="text" ng-model="selected"
+                           uib-typeahead="topic as topic.title for topic in topicsList | filter:$viewValue | limitTo:8"
+                           placeholder="Topic Search"
+                           typeahead-on-select="searchSelected($item)"/>
+
+                    <ul class="nav navbar-nav">
+                        <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                        <li class="hidden">
+                            <a href="#page-top"></a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="#topics">Topics</a>
+                        </li>
+                        <li ng-show="!isLoggedIn">
+                            <a class="page-scroll" href="#login">Login/Sign up</a>
+                        </li>
+                        <li ng-show="isLoggedIn">
+                            <a class="page-scroll" href="#login">My Account</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="#about">About</a>
+                        </li>
+
+                    </ul>
+                </div>
             </div>
             <!-- /.navbar-collapse -->
         </div>

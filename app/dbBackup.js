@@ -62,3 +62,5 @@ function getJson(){
 // db.questionbank.update({index:58},{$addToSet:{questions:{question:"What is CNA?",choices:["HBA+NIC","Dual Port HBA","iSCSI","SCSI"],answer:0,index:9}}})
 // db.questionbank.update({index:58},{$addToSet:{questions:{question:"What will happen in case of a Loss of sync for 110ms on a N port?",choices:["Nothing","LR/LRR","Link flap","PLOGI"],answer:2,index:10}}})
 //db.questionbank.update({index:58,"questions":{ "question" : "What will happen in case of a Loss of sync for 110ms on a N port?", "choices" : [ "Nothing", "LR/LRR", "Link flap", "PLOGI" ], "answer" : 2, "index" : 10 }},{$set:{"questions.$":{ "question" : "What will happen in case of a Loss of sync for 110ms on a N port?", "choices" : [ "Nothing", "LR/LRR", "Link flap", "PLOGI" ], "answer" : 2, "index" : 0 }}})
+
+//./mongo ds017246.mlab.com:17246/techassesment -u saravanan86 -p knight1!

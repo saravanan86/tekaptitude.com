@@ -9,7 +9,8 @@ var topicsDisplayLimit = 8,
     SUCCESS_MSG="Success. You scored %d%",
     FAIL_MSG="Fail. You scored %d%",
     TOTAL_TIME=1800,
-    requiredFields = [];
+    requiredFields = [],
+    topicsList = null;
 
 function isValidDate( dateString )
 {
@@ -47,11 +48,56 @@ function setMissedField( elemModelName ){
 function resetMissedField(){
 
     for( var i = 0, len = requiredFields.length; i < len; i++ ){
-        console.log('======elements====',requiredFields[i],requiredFields[i].className,requiredFields[i].className.replace(/ signUpMissedField/,""));
+
         requiredFields[i].className = requiredFields[i].className.replace(/ signUpMissedField/,"");
 
     }
     requiredFields = [];
+}
+
+function getTopics( http, scope){
+
+    http.get( hostUrl+'/topics/topic' ).then( function( res ) {
+        console.log(res.data);
+        var topics = res.data,
+            counter = 0;
+
+        scope.topics = {};
+        scope.topicsDisplayLimit = topicsDisplayLimit;
+        scope.topicsList = [];
+
+        for( var topic in topics ){
+
+            scope.topics[ topics[topic].topic] = topics[topic].title;
+            scope.topicsList[ scope.topicsList.length+1 ] = { "title" : topics[topic].title, "name" : topics[topic].topic };
+
+        }
+        topicsList = scope.topicsList;
+        console.log('======TOPICSLIST=====', topicsList);
+        scope.isLoading = false;
+
+    });
+
+}
+
+function openTopic( modalInstance, topicName, topicId ){
+
+    var modalInstance = modalInstance.open( {
+
+        templateUrl: 'html/topicSelection.html',
+        controller: 'topicSelectionController',
+        backdrop: false,
+        resolve:{
+            topicInfo:function () {
+                return {
+                    topicName: topicName,
+                    topicId: topicId
+                }
+            }
+        }
+
+    });
+    return modalInstance;
 }
 
 app.controller( "topicsController", function( $scope, $uibModal, $http, $location ){
@@ -61,21 +107,15 @@ app.controller( "topicsController", function( $scope, $uibModal, $http, $locatio
     $scope.isLoading = true;
     $scope.hasMore = true;
 
-    $http.get( hostUrl+'/topics/topic' ).then( function( res ) {
-        console.log(res.data);
-        var topics = res.data,
-            counter = 0;
+    if( topicsList ){
 
-        $scope.topics = {};
-        $scope.topicsDisplayLimit = topicsDisplayLimit;
-
-        for( var topic in topics ){
-            $scope.topics[ topics[topic].topic] = topics[topic].title;
-
-        }
         $scope.isLoading = false;
 
-    });
+    }else {
+
+        getTopics( $http, $scope );
+
+    }
 
     $scope.loadMore = function(){
 
@@ -91,9 +131,14 @@ app.controller( "topicsController", function( $scope, $uibModal, $http, $locatio
 
     };
 
-
     $scope.openTopic = function( topicName, topicId ){
-console.log('=========openTopic===',topicName);
+
+        openTopic( $uibModal, topicName, topicId );
+
+    };
+
+    /*$scope.openTopic = function( topicName, topicId ){
+
         var modalInstance = $uibModal.open( {
 
             templateUrl: 'html/topicSelection.html',
@@ -109,7 +154,7 @@ console.log('=========openTopic===',topicName);
             }
 
         });
-    };
+    };*/
 
 } );
 
@@ -261,9 +306,27 @@ app.controller( "loginPageController", function( $scope, $uibModalInstance, $htt
 
 } );
 
-app.controller( "navController", function( $scope, $rootScope, loginService ){
+app.controller( "navController", function( $scope, $rootScope, $http, loginService, $uibModal ){
 
     $scope.isLoggedIn = loginService.isLoggedIn();
+    $scope.selected = undefined;
+
+    if( !topicsList ){
+
+        getTopics( $http, $scope );
+
+    }
+
+    $scope.searchSelected = function( topic ){
+
+        console.log('============TOPICS SELECTED: ====', topic);
+
+        openTopic( $uibModal, topic.title, topic.name );
+
+    };
+
+    //$scope.topicList =['java','actionScript','android'];
+        //[{"actionScript":"ActionScript"},{"android":"Android"},{"angularjs":"AngularJs"},{"c":"C"},{"c#":"C#"}];
     $rootScope.$on("logged-in",function( event, userInfo ){
         
         $scope.isLoggedIn = true;
