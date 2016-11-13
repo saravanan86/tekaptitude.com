@@ -627,12 +627,52 @@ app.controller( "topicTestController", function( $scope, $uibModalInstance, $uib
 
     function setQuestion () {
 
-        $scope.question = questions[$scope.currentQuestion-1].questions.question;
-        $scope.choices = questions[$scope.currentQuestion-1].questions.choices;
+        var index = $scope.currentQuestion-1;
+
+        $scope.question = questions[index].questions.question;
+        $scope.choices = questions[index].questions.choices;
+        $scope.isMulti = questions[index].questions.isMulti;
+        $scope.multiOptions = [];
+        for( var i = 0, len = $scope.choices.length; i < len; i++ ){
+
+            var selected = false;
+
+            if( $scope.answers[$scope.currentQuestion] && $scope.answers[$scope.currentQuestion].indexOf( $scope.choices[i] ) != -1 ){
+
+                selected = true;
+
+            }
+
+            $scope.multiOptions[ $scope.multiOptions.length ] = { 'index':i, 'name' : $scope.choices[i], 'selected':selected };
+
+
+
+        }
+
 
     }
 
     setQuestion();
+    
+    $scope.multipleAnswerSelected = function( index, answer ){
+
+        $scope.answers[index] = $scope.answers[index] || [];
+        var position = $scope.answers[index].indexOf(answer.name);
+
+        if( position == -1 && answer.selected ){
+
+            $scope.answers[index].push(answer.index);
+
+        } else if (!answer.selected && position != -1){
+
+            $scope.answers[index].splice(position, 1);
+
+        }
+
+        $scope.questionIndex[ parseInt(questions[index-1].questions.index) ] = $scope.answers[ index ];
+        
+    };
+    
 
     $scope.answerSelected = function( index, answer ){
 

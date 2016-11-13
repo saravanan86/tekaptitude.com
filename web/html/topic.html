@@ -27,11 +27,20 @@
         <div>
         {{currentQuestion}}. {{question}}
         </div><br/>
-        <ul>
-            <li ng-repeat=" opt in choices " class="topicQuestion" >
-                <label for="questionOptions_{{$index}}" ><input type="radio" id="questionOptions_{{$index}}" name="questionOptions" ng-model="answers[currentQuestion]" value="{{$index}}" ng-change="answerSelected( currentQuestion, $index )" /> &nbsp;{{opt}}</label>
-            </li>
-        </ul>
+            <ul>
+                <div ng-switch="isMulti">
+                    <div ng-switch-when="true">
+                        <li ng-repeat=" opt in multiOptions " class="topicQuestion" >
+                            <label for="questionOptions_{{$index}}" ><input type="checkbox" id="questionOptions_{{$index}}" name="questionOptions" ng-model="opt.selected" ng-change="multipleAnswerSelected( currentQuestion, opt )" /> &nbsp;{{opt.name}}</label>
+                        </li>
+                    </div>
+                    <div ng-switch-when="false">
+                        <li ng-repeat=" opt in choices " class="topicQuestion" >
+                            <label for="questionOptions_{{$index}}" ><input type="radio" id="questionOptions_{{$index}}" name="questionOptions" ng-model="answers[currentQuestion]" value="{{$index}}" ng-change="answerSelected( currentQuestion, $index )" /> &nbsp;{{opt}}</label>
+                        </li>
+                    </div>
+                </div>
+            </ul>
         </div>
         <div ng-repeat="alert in alerts" uib-alert class="alert-style" close="closeAlert($index)" dismiss-on-timeout="5000">{{alert.msg}}</div>
     </div>

@@ -11,15 +11,15 @@ router.get('/:topic/:difficulty/:size', function (req, res) {
 
     db.get().collection( 'questionbank' ).find( {'topic':topic}, {'questions.index':1,'_id':0} ).toArray( function( err, docs ){
 
-        console.log('======RANDOM==',docs);
         randomArr = getRandomQuestionIndex( docs,size );
-        console.log('====size 1====',size,randomArr);
         //db.questionbank.aggregate([{$match:{'index':0}},{$unwind:'$questions'},{$match:{'questions.index':{$in:[45,46]}}}]).pretty()
         //db.questionbank.aggregate([{$match:{'index':0}},{$unwind:'$questions'},{$match:{'questions.index':{$in:[45,46]}}},{$project:{'_id':0,'index':1,'topic':1,'title':1,'level':1,'questions.question':1,'questions.choices':1,'questions.index':1}}])
         //db.get().collection('questionbank').find({'topic':topic,'level':difficulty},{'questions.answer':0}).toArray(function(err, docs) {
-        db.get().collection('questionbank').aggregate([{$match:{'topic':topic}},{$unwind:'$questions'},{$match:{'questions.index':{$in:randomArr}}},{$project:{'_id':0,'questions.question':1,'questions.choices':1,'questions.index':1}}]).toArray(function(err, docs) {
+        db.get().collection('questionbank').aggregate([{$match:{'topic':topic}},{$unwind:'$questions'},{$match:{'questions.index':{$in:randomArr}}},{$project:{'_id':0,'questions.question':1,'questions.choices':1,'questions.index':1,'questions.answer':1}}]).toArray(function(err, docs) {
 
-            console.log('Questions array====',docs);
+            //console.log('Questions array 1====',docs);
+            docs = checkMultiAnswerOptions(docs);
+            //console.log('Questions array 2====',docs);
             res.json(docs);
         });
 
@@ -64,7 +64,7 @@ router.post( '/answers',function( req, res ){
         questionResponse = req.body.questionIndex,
         correctAnswers = 0,
         wrongAnswers = 0;
-    console.log('=======Answers Index======',questionIndexes, topicId,questionResponse);
+
     db.get().collection('questionbank').aggregate([{$match:{'topic':topicId}},{$unwind:'$questions'},{$match:{'questions.index':{$in:questionIndexes}}},{$project:{'_id':0,'questions.index':1,'questions.answer':1}}]).toArray(function(err, docs) {
 
         //console.log('Answers array====', docs);
@@ -75,7 +75,8 @@ router.post( '/answers',function( req, res ){
 
                 if( docs[i].questions.index == j ){
 
-                    if( docs[i].questions.answer ==  questionResponse[j]){
+                    //if( docs[i].questions.answer ==  questionResponse[j]){
+                    if( checkAnswers( questionResponse[j], docs[i].questions.answer ) ){
                         correctAnswers++;
                     }else {
                         wrongAnswers++;
@@ -87,7 +88,7 @@ router.post( '/answers',function( req, res ){
             }
 
         }
-        console.log('============questionIndexes: ',correctAnswers, wrongAnswers,questionIndexes.length, questions.length);
+
         res.json({correctAnswers:correctAnswers,wrongAnswers:wrongAnswers,totalAnswers:(correctAnswers+wrongAnswers),totalQuestions:questions.length});
     });
 
@@ -125,5 +126,39 @@ function getRandomQuestionIndex( questions, size ){
 
 }
 
+function checkAnswers( selectedAnswer, correctAnswer ){
+
+    if( Array.isArray( correctAnswer ) ){
+
+        for( var i = 0, len = correctAnswer.length; i < len; i++){
+
+            if( !selectedAnswer.find(function(item){ return item == correctAnswer[i] }) ){
+                return false;
+            }
+
+        }
+        return true;
+
+    } else {
+
+        return selectedAnswer === correctAnswer;
+
+    }
+    return false;
+}
+
+function checkMultiAnswerOptions( docs ){
+
+    var resultDoc = [];
+    for( var i = 0, len = docs.length; i < len; i++ ){
+
+        resultDoc[i] = docs[i];
+        resultDoc[i].questions.isMulti = ( Array.isArray( docs[i].questions.answer )  ? true : false );
+        resultDoc[i].questions.answer = "";
+
+    }
+    return resultDoc;
+
+}
 
 module.exports = router;
