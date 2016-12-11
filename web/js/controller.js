@@ -73,7 +73,7 @@ function getTopics( http, scope){
 
         }
         topicsList = scope.topicsList;
-        console.log('======TOPICSLIST=====', topicsList);
+        //console.log('======TOPICSLIST=====', topicsList);
         scope.isLoading = false;
 
     });
@@ -867,5 +867,63 @@ app.controller( "topicSelectionController", function( $scope, $uibModalInstance,
     };
 
 
+
+} );
+
+app.controller( "qustionsController", function( $scope, $http ){
+
+    $scope.questions=[];
+    $scope.mySelections = [];
+    $scope.gridOptions = {
+        data: 'questions',
+        selectedItems: $scope.mySelections,
+        multiSelect: false,
+        columnDefs: [{field: 'question', displayName: 'Question',width:'70%'},{field:'choices', displayName:'Choice',width:'15%'},{field:'answer', displayName:'Answer',width:'15%'}],
+        afterSelectionChange:function( rowItem, event ){
+
+            $scope.selectedRow = {};
+            if(rowItem.selected){
+                $scope.selectedRow = rowItem.entity;
+            }
+            
+        }
+    };
+    
+    $http.get( hostUrl+'/topics/topic' ).then( function( res ) {
+        
+        $scope.topics = res.data;
+
+    });
+    
+    $scope.onTopicSelected = function( topicObj ){
+        
+        var topicIndex = $scope.topics.index;
+
+        $http.post( hostUrl+'/topics/getQuestions', {topicIndex:topicIndex} ).then( function( res ) {
+            
+            $scope.questions = res.data || [];
+
+        });
+        
+    };
+
+    $scope.addQuestion = function () {
+
+        if( $scope.questions ){
+            $scope.questions[$scope.questions.length] = {question:"Sample question?", choices:["Option 1","Option 2","Option 3","Option 4"], answer:0,index:$scope.questions[$scope.questions.length-1].index+1};
+        }
+
+    }
+    
+    $scope.submitPage = function( selectedRow ){
+        
+        $http.post( hostUrl+'/topics/updateQuestions', {topicIndex:$scope.topics.index, question: $scope.selectedRow.question, choices:$scope.selectedRow.choices, answer:$scope.selectedRow.answer, index:$scope.selectedRow.index} ).then( function( res ) {
+
+            console.log('=========submitPage===',res.data);
+            alert( 'Updated record count: '+res.data.success );
+
+        });
+        
+    }
 
 } );

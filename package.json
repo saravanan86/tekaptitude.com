@@ -36,6 +36,7 @@
     "jquery-easing": "0.0.1",
     "jquery-paginate": "^1.0.0",
     "mongodb": "^2.2.9",
+    "ng-grid": "^2.0.1",
     "nodemailer": "^2.6.4"
   },
   "scripts": {

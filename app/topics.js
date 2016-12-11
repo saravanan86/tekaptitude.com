@@ -29,7 +29,7 @@ router.get('/:topic/:difficulty/:size', function (req, res) {
 
 router.get( '/topic', function( req, res ){
 
-    db.get().collection('questionbank').find( {}, {'topic':1,'title':1,'_id':0} ).toArray( function( err, docs ){
+    db.get().collection('questionbank').find( {}, {'topic':1,'title':1,'_id':0,'index':1} ).toArray( function( err, docs ){
 
         //console.log('====TOPICS===',docs);
         res.send( docs );
@@ -53,6 +53,71 @@ router.get( '/:topic/:size', function( req, res ){
     });
 
 });
+
+router.post( '/getQuestions', function( req, res ){
+
+    var index = ( req.body.topicIndex ? req.body.topicIndex : 0 );
+
+    db.get().collection('questionbank').find( {'index':index}, {'topic':1,'title':1,'_id':0,'index':1,'questions':1} ).toArray( function( err, docs ){
+
+        res.send( docs.length > 0 ? docs[0].questions : null );
+
+    } );
+
+} );
+
+router.post( '/updateQuestions', function( req, res ){
+
+    var question = req.body.question,
+        choices = req.body.choices,
+        answer = req.body.answer,
+        index = req.body.index,
+        topicIndex = req.body.topicIndex;
+
+    answer = ( !isNaN( answer ) || Array.isArray( answer ) ? answer : answer.replace(/[\s]*,[\s]*/g,',').replace(/^,|,$/g,'').split(',') );
+    choices = ( Array.isArray( choices ) ? choices : choices ? choices.replace(/[\s]*,[\s]*/g,',').replace(/^,|,$/g,'').split(',') : [] );
+
+    db.get().collection( 'questionbank' ).find( {'index':topicIndex,'questions.index':index} ).toArray( function( err, docs ){
+
+        if( docs && docs.length > 0 ){
+
+            db.get().collection('questionbank').updateOne( {'index':topicIndex,'questions.index':index}, {$set:{'questions.$.choices':choices,'questions.$.answer':answer,'questions.$.question':question}}, function( err, docs ){
+
+
+                if( docs && docs.modifiedCount ){
+
+                    res.json({"success":docs.modifiedCount});
+
+                }else{
+
+                    res.json({"success":0});
+
+                }
+
+            } );
+
+        }else{
+
+            db.get().collection('questionbank').updateOne( {'index':topicIndex}, {$push:{'questions':{'question':question,'choices':choices,'answer':answer,'index':index}}}, function( err, docs ){
+
+
+                if( docs && docs.modifiedCount ){
+
+                    res.json({"success":docs.modifiedCount});
+
+                }else{
+
+                    res.json({"success":0});
+
+                }
+
+            } );
+
+        }
+
+    } );
+
+} );
 
 router.post( '/answers',function( req, res ){
 

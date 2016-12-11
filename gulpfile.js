@@ -60,6 +60,17 @@ gulp.task('minify-js', function() {
 });
 
 // Copy Bootstrap core files from node_modules to vendor directory
+gulp.task('angular-grid', function() {
+
+    gulp.src(['node_modules/ng-grid/ng-grid.css'])
+        .pipe(gulp.dest(DEV_FOLDER+'ng-grid/css'));
+
+    return gulp.src(['node_modules/ng-grid/build/*.js'])
+        .pipe(gulp.dest(DEV_FOLDER+'ng-grid'));
+
+});
+
+// Copy Bootstrap core files from node_modules to vendor directory
 gulp.task('angular-bootstrap', function() {
 
         gulp.src(['node_modules/angular-ui-bootstrap/template/**'])
@@ -125,7 +136,7 @@ gulp.task( 'clean', function(  ){
 } );
 
 // Copy all dependencies from node_modules
-gulp.task('copy', [ 'bootstrap', 'angular-bootstrap', 'jquery', 'jquery-easing', 'fontawesome', 'angular'], function(){
+gulp.task('copy', [ 'bootstrap', 'angular-bootstrap', 'jquery', 'jquery-easing', 'fontawesome', 'angular', 'angular-grid'], function(){
 
 
 });

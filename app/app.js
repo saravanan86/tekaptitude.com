@@ -3,6 +3,7 @@ var express = require('express'),
     db = require( './db' ),
     topics = require( './topics' ),
     users = require( './users' ),
+    questions = require('./questions'),
     config = require( './config' ),
     mail = require( './mail' ),
     cookieParser = require('cookie-parser'),
@@ -45,6 +46,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use( express.static( env == 'development' ? 'web' : 'web' ) );
 app.use( '/topics', topics );
 app.use( '/users', users );
+app.use( '/questions', questions );
 
 mail.setMailSettings( config );
 
