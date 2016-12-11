@@ -637,7 +637,7 @@ app.controller( "topicTestController", function( $scope, $uibModalInstance, $uib
 
             var selected = false;
 
-            if( $scope.answers[$scope.currentQuestion] && $scope.answers[$scope.currentQuestion].indexOf( $scope.choices[i] ) != -1 ){
+            if( $scope.answers[$scope.currentQuestion] && $scope.answers[$scope.currentQuestion].indexOf( i ) != -1 ){
 
                 selected = true;
 
@@ -657,7 +657,7 @@ app.controller( "topicTestController", function( $scope, $uibModalInstance, $uib
     $scope.multipleAnswerSelected = function( index, answer ){
 
         $scope.answers[index] = $scope.answers[index] || [];
-        var position = $scope.answers[index].indexOf(answer.name);
+        var position = $scope.answers[index].indexOf(answer.index);
 
         if( position == -1 && answer.selected ){
 
@@ -670,7 +670,6 @@ app.controller( "topicTestController", function( $scope, $uibModalInstance, $uib
         }
 
         $scope.questionIndex[ parseInt(questions[index-1].questions.index) ] = $scope.answers[ index ];
-        
     };
     
 

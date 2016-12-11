@@ -198,7 +198,7 @@ function checkAnswers( selectedAnswer, correctAnswer ){
 
         for( var i = 0, len = correctAnswer.length; i < len; i++){
 
-            if( !selectedAnswer.find(function(item){ return item == correctAnswer[i] }) ){
+            if( selectedAnswer.find(function(item){ return item == correctAnswer[i] }) == undefined ){
                 return false;
             }
 
