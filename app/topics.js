@@ -75,6 +75,7 @@ router.post( '/updateQuestions', function( req, res ){
         topicIndex = req.body.topicIndex;
 
     answer = ( !isNaN( answer ) || Array.isArray( answer ) ? answer : answer.replace(/[\s]*,[\s]*/g,',').replace(/^,|,$/g,'').split(',') );
+    answer = ( typeof answer == 'object' ? answer.map(Number) : parseInt( answer, 10 ) );
     choices = ( Array.isArray( choices ) ? choices : choices ? choices.replace(/[\s]*,[\s]*/g,',').replace(/^,|,$/g,'').split(',') : [] );
 
     db.get().collection( 'questionbank' ).find( {'index':topicIndex,'questions.index':index} ).toArray( function( err, docs ){
