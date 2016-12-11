@@ -884,7 +884,7 @@ app.controller( "qustionsController", function( $scope, $http ){
             $scope.selectedRow = {};
             if(rowItem.selected){
                 $scope.selectedRow = rowItem.entity;
-                $scope.selectedRow.choices = $scope.selectedRow.choices.join('\n');
+                $scope.selectedRow.choices = ( typeof $scope.selectedRow.choices == 'object' ? $scope.selectedRow.choices.join('\n') : $scope.selectedRow.choices );
                 console.log('=====Selected Row: ',$scope.selectedRow);
             }
             
