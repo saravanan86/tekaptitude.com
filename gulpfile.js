@@ -96,6 +96,13 @@ gulp.task('jquery', function() {
 
 });
 
+gulp.task('jquery-mobile', function() {
+
+    return gulp.src(['node_modules/jquery-mobile/dist/jquery.mobile.js','node_modules/jquery-mobile/dist/jquery.mobile.min.js'])
+        .pipe(gulp.dest(DEV_FOLDER+'jquery-mobile'));
+
+});
+
 gulp.task('jquery-easing', function() {
 
     return gulp.src(['node_modules/jquery-easing/dist/jquery*.js'])
@@ -136,7 +143,7 @@ gulp.task( 'clean', function(  ){
 } );
 
 // Copy all dependencies from node_modules
-gulp.task('copy', [ 'bootstrap', 'angular-bootstrap', 'jquery', 'jquery-easing', 'fontawesome', 'angular', 'angular-grid'], function(){
+gulp.task('copy', [ 'bootstrap', 'angular-bootstrap', 'jquery', 'jquery-easing', 'jquery-mobile', 'fontawesome', 'angular', 'angular-grid'], function(){
 
 
 });

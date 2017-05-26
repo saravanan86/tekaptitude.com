@@ -1,5 +1,11 @@
 # tekaptitude.com
 
+Start NodeJS Server:
+
+1. node app/app.js
+
+
+
 Connect to db:
 
 1. Go to mongo/bin folder

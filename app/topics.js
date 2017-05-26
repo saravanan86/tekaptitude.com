@@ -131,7 +131,7 @@ router.post( '/answers',function( req, res ){
         correctAnswers = 0,
         wrongAnswers = 0;
 
-    db.get().collection('questionbank').aggregate([{$match:{'topic':topicId}},{$unwind:'$questions'},{$match:{'questions.index':{$in:questionIndexes}}},{$project:{'_id':0,'questions.index':1,'questions.answer':1}}]).toArray(function(err, docs) {
+    db.get().collection('questionbank').aggregate([{$match:{'topic':topicId}},{$unwind:'$questions'},{$match:{'questions.index':{$in:questionIndexes}}},{$project:{'_id':0,'questions.index':1,'questions.question':1,'questions.answer':1}}]).toArray(function(err, docs) {
 
         //console.log('Answers array====', docs);
         for( var i = 0, len = docs.length; i < len; i++ ){
@@ -141,7 +141,7 @@ router.post( '/answers',function( req, res ){
 
                 if( docs[i].questions.index == j ){
 
-                    //if( docs[i].questions.answer ==  questionResponse[j]){
+                    console.log('=====Question with answer. Question: '+docs[i].questions.question+', Answer: '+docs[i].questions.answer+', Selected answer: '+questionResponse[j]);
                     if( checkAnswers( questionResponse[j], docs[i].questions.answer ) ){
                         correctAnswers++;
                     }else {
