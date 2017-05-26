@@ -55,10 +55,16 @@ function resetMissedField(){
     requiredFields = [];
 }
 
-function getTopics( http, scope){
+function getTopics( http, scope, localstorage){
 
+    if(localstorage.getObject("topicsList",false)){
+        scope.topics = localstorage.getObject("topics");
+        scope.topicsDisplayLimit = topicsDisplayLimit;
+        scope.topicsList = topicsList = localstorage.getObject("topicsList");
+        scope.isLoading = false;
+    }
     http.get( hostUrl+'/topics/topic' ).then( function( res ) {
-        console.log(res.data);
+
         var topics = res.data,
             counter = 0;
 
@@ -69,11 +75,13 @@ function getTopics( http, scope){
         for( var topic in topics ){
 
             scope.topics[ topics[topic].topic] = topics[topic].title;
-            scope.topicsList[ scope.topicsList.length+1 ] = { "title" : topics[topic].title, "name" : topics[topic].topic };
+            scope.topicsList[ scope.topicsList.length ] = { "title" : topics[topic].title, "name" : topics[topic].topic };
 
         }
+
         topicsList = scope.topicsList;
-        //console.log('======TOPICSLIST=====', topicsList);
+        localstorage.setObject("topicsList",topicsList);
+        localstorage.setObject("topics",scope.topics);
         scope.isLoading = false;
 
     });
@@ -100,22 +108,14 @@ function openTopic( modalInstance, topicName, topicId ){
     return modalInstance;
 }
 
-app.controller( "topicsController", function( $scope, $uibModal, $http, $location ){
+app.controller( "topicsController", function( $scope, $uibModal, $http, $location, localstorage ){
 
     //hostUrl = decodeURIComponent(getCookieValue('hostUrl'));
     //console.log('============hostUrl: ',hostUrl);
     $scope.isLoading = true;
     $scope.hasMore = true;
 
-    if( topicsList ){
-
-        $scope.isLoading = false;
-
-    }else {
-
-        getTopics( $http, $scope );
-
-    }
+    getTopics( $http, $scope, localstorage );
 
     $scope.loadMore = function(){
 
@@ -306,16 +306,12 @@ app.controller( "loginPageController", function( $scope, $uibModalInstance, $htt
 
 } );
 
-app.controller( "navController", function( $scope, $rootScope, $http, loginService, $uibModal ){
+app.controller( "navController", function( $scope, $rootScope, $http, loginService, localstorage, $uibModal ){
 
     $scope.isLoggedIn = loginService.isLoggedIn();
     $scope.selected = undefined;
 
-    if( !topicsList ){
-
-        getTopics( $http, $scope );
-
-    }
+    getTopics( $http, $scope, localstorage );
 
     $scope.searchSelected = function( topic ){
 
